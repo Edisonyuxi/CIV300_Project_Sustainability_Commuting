@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Sustainable Commuting — Interactive Prototype (No Build)</title>
+  <style>
+    :root{
+      --bg:#f6f7f9; --fg:#111; --muted:#666; --card:#fff; --border:#e6e8ee; --accent:#0ea5e9;
+      --shadow:0 10px 24px rgba(0,0,0,.06);
+    }
+    html[data-theme="dark"]{
+      --bg:#0b1220; --fg:#e5e7eb; --muted:#94a3b8; --card:#0f172a; --border:#1f2937; --accent:#7dd3fc;
+      --shadow:0 10px 24px rgba(0,0,0,.4);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial}
+    a{color:var(--accent);text-decoration:none}
+    .container{max-width:1120px;margin:0 auto;padding:0 16px}
+    header{
+      background:linear-gradient(90deg, rgba(16,185,129,.10), rgba(14,165,233,.10), rgba(251,191,36,.10));
+      border-bottom:1px solid var(--border);
+    }
+    .head{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:18px 0;}
+    .title h1{margin:0 0 4px;font-size:22px}
+    .title p{margin:0;color:var(--muted);font-size:12px}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--fg);cursor:pointer}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{border-color:transparent;background:var(--accent);color:#05222e}
+    main{padding:18px 0 48px}
+    .grid{display:grid;gap:16px}
+    @media(min-width:960px){.grid-2{grid-template-columns:1fr 1fr}}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow)}
+    .card .hd{padding:16px 16px 8px;border-bottom:1px solid var(--border)}
+    .card .hd h3{margin:0;font-size:16px}
+    .card .bd{padding:16px}
+    .muted{color:var(--muted)}
+    .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+    .field{display:flex;align-items:center;gap:10px}
+    .field label{min-width:150px}
+    input[type="number"], .chip-input{
+      width:84px;padding:8px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--fg)
+    }
+    input[type="range"]{width:300px}
+    .switch{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);padding:6px 10px;border-radius:999px}
+    .badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;margin-right:6px}
+    .b-car{background:#ffe4e6;color:#9f1239}
+    .b-streetcar{background:#e0f2fe;color:#075985}
+    .b-train{background:#e0e7ff;color:#3730a3}
+    .b-bike{background:#dcfce7;color:#065f46}
+    .b-air{background:#fef3c7;color:#92400e}
+    .metrics{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+    .metric{display:flex;flex-direction:column}
+    .metric .lab{font-size:12px;color:var(--muted)}
+    .metric .val{font-size:20px;font-weight:600}
+    .progress{height:10px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+    html[data-theme="dark"] .progress{background:#0b1220;border:1px solid var(--border)}
+    .progress>span{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#16a34a)}
+    .hint{font-size:12px;color:var(--muted);margin:-4px 16px 8px}
+    .svg-wrap{height:220px;border:1px dashed var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center}
+    .note{font-size:12px;color:var(--muted)}
+    .footer{text-align:center;color:var(--muted);font-size:12px;margin-top:18px}
+    .sep{height:1px;background:var(--border);margin:12px 0}
+    dialog{border:1px solid var(--border);border-radius:12px;padding:0;background:var(--card);color:var(--fg);max-width:720px}
+    dialog .d-hd{padding:14px 16px;border-bottom:1px solid var(--border)}
+    dialog .d-bd{padding:16px}
+    dialog::backdrop{background:rgba(0,0,0,.25)}
+    .pill{border:1px solid var(--border);border-radius:999px;padding:6px 10px}
+    .exec p{margin:.4rem 0}
+    .list{padding-left:1.25rem}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container head">
+      <div class="title">
+        <h1>Sustainable Commuting</h1>
+        <p>Public Transit vs Private Cars · Heat Island · Comfort · Air Quality · Energy</p>
+      </div>
+      <div class="row">
+        <button class="btn" id="themeBtn">暗色</button>
+        <button class="btn" id="resetBtn">重置</button>
+        <button class="btn primary" id="aboutBtn">说明/占位</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 情景构建器 -->
+    <section class="card">
+      <div class="hd"><h3>🗺 你的通勤情景（可交互）</h3></div>
+      <div class="bd">
+        <div class="row">
+          <div class="field">
+            <label>通勤距离（往返，km）</label>
+            <input type="range" id="distance" min="0" max="50" step="1" value="10">
+            <input type="number" id="distanceNum" value="10">
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:8px">
+          <div class="pill">出行类型：</div>
+          <label class="switch"><input type="radio" name="mode" value="Public" checked> 公共交通</label>
+          <label class="switch"><input type="radio" name="mode" value="Private"> 私家车</label>
+
+          <div id="publicWrap" class="row" style="margin-left:8px">
+            <span class="pill">选择方式：</span>
+            <label class="switch"><input type="checkbox" data-key="Streetcar" checked> Streetcar</label>
+            <label class="switch"><input type="checkbox" data-key="Train"> Train</label>
+            <label class="switch"><input type="checkbox" data-key="Bike"> Bike</label>
+            <label class="switch"><input type="checkbox" data-key="Airplane"> Airplane</label>
+          </div>
+
+          <div id="privateWrap" class="row" style="display:none;margin-left:8px">
+            <label class="switch"><input type="checkbox" data-key="Car"> Car（私家车）</label>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="row">
+          <div class="badge b-streetcar" id="chip-streetcar" style="display:inline-block">Streetcar</div>
+          <div class="badge b-train" id="chip-train" style="display:none">Train</div>
+          <div class="badge b-bike" id="chip-bike" style="display:none">Bike</div>
+          <div class="badge b-air" id="chip-air" style="display:none">Airplane</div>
+          <div class="badge b-car" id="chip-car" style="display:none">Car</div>
+        </div>
+
+        <div class="metrics" style="margin-top:8px">
+          <div class="metric">
+            <span class="lab">通勤距离</span>
+            <span class="val"><span id="m-dist">10</span> km</span>
+          </div>
+          <div class="metric">
+            <span class="lab">CO₂ 估算</span>
+            <span class="val"><span id="m-co2">0</span> g/天</span>
+          </div>
+          <div class="metric" style="min-width:240px">
+            <span class="lab">进度条（以 3000 g/天 为参考）</span>
+            <div class="progress"><span id="m-bar" style="width:0%"></span></div>
+          </div>
+        </div>
+
+        <p class="note">* 占位：请用课程数据替换下面常量 <code>EMISSIONS_G_PER_KM</code>。</p>
+
+        <div class="bd">
+          <h4 style="margin:8px 0 4px">不同方式的单位排放（g CO₂ / km，示意）</h4>
+          <div class="svg-wrap">
+            <svg id="barSvg" width="100%" height="100%" viewBox="0 0 640 220" preserveAspectRatio="xMidYMid meet" aria-label="Bar chart"></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 四大模块 -->
+    <section class="grid grid-2">
+      <!-- 热岛 -->
+      <div class="card">
+        <div class="hd"><h3>🌡 Urban Heat Island（城市热岛）</h3></div>
+        <div class="hint">Course concept: <b>Albedo & Energy Absorption</b> · Pillar: <b>Environmental</b>. 铺装↑ → 反照率↓ → 吸收↑ → 热岛增强。</div>
+        <div class="bd">
+          <div class="grid grid-2">
+            <div>
+              <div class="field"><label>不透水地表（%）</label><input type="range" id="paved" min="0" max="100" value="60"><input type="number" id="pavedNum" value="60"></div>
+              <div class="field"><label>树冠覆盖（%）</label><input type="range" id="canopy" min="0" max="60" value="20"><input type="number" id="canopyNum" value="20"></div>
+              <div class="metrics" style="margin-top:8px">
+                <div class="metric"><span class="lab">热岛增温</span><span class="val"><span id="m-uhidT">0</span> °C</span></div>
+                <div class="metric"><span class="lab">简化 Albedo 指示</span><span class="val"><span id="m-albedo">0</span></span></div>
+              </div>
+              <p class="note">* 占位公式：ΔT = 0.02×铺装% − 0.015×树冠%。</p>
+            </div>
+            <div class="svg-wrap"><div class="muted">可替换为地图/遥感图/你们的可视化</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 人体舒适 -->
+      <div class="card">
+        <div class="hd"><h3>💨 Human Comfort（人体舒适度）</h3></div>
+        <div class="hint">Course concept: <b>Human Thermal Comfort</b>（UTCI/Heat Index 可选） · Pillars: <b>Environmental</b> & <b>Social</b>.</div>
+        <div class="bd">
+          <div class="grid grid-2">
+            <div>
+              <div class="field"><label>气温（°C）</label><input type="range" id="temp" min="-10" max="45" value="28"><input type="number" id="tempNum" value="28"></div>
+              <div class="field"><label>相对湿度（%）</label><input type="range" id="rh" min="0" max="100" value="60"><input type="number" id="rhNum" value="60"></div>
+              <div class="field"><label>风速（m/s）</label><input type="range" id="wind" min="0" max="12" step="0.5" value="2"><input type="number" id="windNum" value="2"></div>
+              <div class="metrics" style="margin-top:8px">
+                <div class="metric"><span class="lab">体感温度（简化）</span><span class="val"><span id="m-app">0</span> °C</span></div>
+                <div class="metric"><span class="lab">热岛叠加</span><span class="val">+<span id="m-uhidT2">0</span> °C</span></div>
+              </div>
+              <p class="note">* 占位体感：温度 + 湿度修正 − 风速冷却 + 热岛。</p>
+            </div>
+            <div class="svg-wrap"><div class="muted">舒适区指示（可换为 UTCI/HI 真值）</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 大气成分与污染 -->
+      <div class="card">
+        <div class="hd"><h3>☁️ Air Composition & Pollution（大气成分与污染）</h3></div>
+        <div class="hint">Course concept: <b>Atmospheric Composition & Air Pollution</b> · Pillars: <b>Environmental</b> & <b>Public Health (Social)</b>.</div>
+        <div class="bd">
+          <div class="grid grid-2">
+            <div>
+              <div class="field"><label>交通强度（0-10）</label><input type="range" id="traf" min="0" max="10" value="6"><input type="number" id="trafNum" value="6"></div>
+              <div class="field"><label>工业影响（0-10）</label><input type="range" id="ind" min="0" max="10" value="2"><input type="number" id="indNum" value="2"></div>
+              <div class="metrics" style="margin-top:8px">
+                <div class="metric"><span class="lab">AQI 指示（占位 0-100）</span><span class="val"><span id="m-aqi">0</span></span></div>
+                <div class="metric"><span class="lab">主要来源（示意）</span><span class="val" id="m-source">交通</span></div>
+              </div>
+              <p class="note">* 后续可替换为 PM₂.₅/NOₓ/O₃ 等真实算法。</p>
+            </div>
+            <div class="svg-wrap"><div class="muted">热力图/柱状图/时间序列（按数据替换）</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 燃烧与能效 -->
+      <div class="card">
+        <div class="hd"><h3>🔥 Combustion & Energy Efficiency</h3></div>
+        <div class="hint">Course concept: <b>Combustion, Energy Efficiency & Transformation</b> · Pillars: <b>Environmental</b> & <b>Economic</b>.</div>
+        <div class="bd">
+          <div class="grid grid-2">
+            <div>
+              <div class="field"><label>内燃机效率（%）</label><input type="range" id="ice" min="10" max="45" value="25"><input type="number" id="iceNum" value="25"></div>
+              <div class="field"><label>电驱动效率（%）</label><input type="range" id="ev" min="60" max="95" value="85"><input type="number" id="evNum" value="85"></div>
+              <div class="metrics" style="margin-top:8px">
+                <div class="metric"><span class="lab">效率提升（占位）</span><span class="val">+<span id="m-eff">0</span> %</span></div>
+              </div>
+              <p class="note">* 可替换为 well-to-wheel 能效或能量流。</p>
+            </div>
+            <div class="svg-wrap"><div class="muted">能量转化示意（可换成 Sankey）</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Executive Summary -->
+    <section class="card exec" style="margin-top:16px">
+      <div class="hd"><h3>🍀 Executive Summary（Part B · 600–900 字）</h3></div>
+      <div class="bd">
+        <p><b>Topic：</b>Sustainable Commuting — Public Transit vs Private Cars。我们从碳排放与城市热环境出发，讨论对人体舒适与空气质量的影响。</p>
+        <p><b>Pillars：</b><i>Environmental</i>（排放/能耗/热岛）与 <i>Social</i>（舒适/健康/公平性）。（可选 <i>Economic</i>：运营成本、拥堵外部性）。</p>
+        <p><b>Key Insights（占位）：</b>公共交通与主动出行降低人均排放与污染；高铺装比例→低反照率→更高能量吸收→热岛更强，提升热应激风险；EV 端用效率更高，但需结合电力结构。</p>
+        <p><b>Recommendations（占位）：</b>短中途径优先公交/骑行；走廊使用“冷屋面/冷路面”材料+增树冠；鼓励高效车辆；收集模式因子真实数据以校准。</p>
+        <p><b>Limitations（占位）：</b>此原型使用简化因子/公式，请用课程认可的数据与来源替换，并统一引用格式。</p>
+      </div>
+    </section>
+
+    <!-- References -->
+    <section class="card" style="margin-top:16px">
+      <div class="hd"><h3>📚 References（占位 · 建议 IEEE/Chicago，10–15 条）</h3></div>
+      <div class="bd">
+        <ol class="list">
+          <li>Mode-specific emission factors — <i>replace with course sources</i>.</li>
+          <li>Urban heat island & albedo — <i>peer-reviewed / credible grey literature</i>.</li>
+          <li>Human comfort metrics (UTCI/HI) — <i>insert references</i>.</li>
+          <li>Air pollution (PM/NOx/O₃) — <i>insert references</i>.</li>
+          <li>Energy transformation & efficiency — <i>insert references</i>.</li>
+        </ol>
+        <p class="note">* 书面报告（Part B）需正式引用；网页列出同样来源便于追溯。</p>
+      </div>
+    </section>
+
+    <div class="footer">Prototype · Replace placeholder numbers with course data · Deploy on GitHub Pages</div>
+  </main>
+
+  <!-- 说明弹窗 -->
+  <dialog id="aboutDialog">
+    <div class="d-hd"><b>项目说明（占位，可替换为 PDF 摘要）</b></div>
+    <div class="d-bd">
+      <p>此原型用于演示交互与版式。所有数值/公式均为<strong>临时占位</strong>，请替换为课程要求数据与参考。</p>
+      <ul class="list">
+        <li>把课堂 PDF 中的指标与定义粘贴到各卡片说明处；</li>
+        <li>把图表数据换成你们收集/计算的真实值；</li>
+        <li>在 Executive Summary 与 References 保持一致的引用格式。</li>
+      </ul>
+      <div style="text-align:right;margin-top:10px">
+        <button class="btn" id="aboutClose">关闭</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    // ========= 占位常量（请替换为课程数据） =========
+    const EMISSIONS_G_PER_KM = {
+      Car: 180,       // g CO2/km (placeholder)
+      Streetcar: 70,
+      Train: 45,
+      Bike: 0,
+      Airplane: 255   // per pax-km (placeholder short-haul)
+    };
+
+    // ========= 工具 =========
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+    // ========= 元素 =========
+    const themeBtn = $('#themeBtn');
+    const resetBtn = $('#resetBtn');
+    const aboutBtn = $('#aboutBtn');
+    const aboutDlg = $('#aboutDialog');
+    const aboutClose = $('#aboutClose');
+
+    const distance = $('#distance');
+    const distanceNum = $('#distanceNum');
+    const chips = {
+      Streetcar: $('#chip-streetcar'),
+      Train: $('#chip-train'),
+      Bike: $('#chip-bike'),
+      Airplane: $('#chip-air'),
+      Car: $('#chip-car'),
+    };
+    const publicWrap = $('#publicWrap');
+    const privateWrap = $('#privateWrap');
+
+    const mDist = $('#m-dist');
+    const mCO2 = $('#m-co2');
+    const mBar = $('#m-bar');
+
+    const paved = $('#paved'), pavedNum = $('#pavedNum');
+    const canopy = $('#canopy'), canopyNum = $('#canopyNum');
+    const mUhiDT = $('#m-uhidT');
+    const mUhiDT2 = $('#m-uhidT2');
+    const mAlbedo = $('#m-albedo');
+
+    const temp = $('#temp'), tempNum = $('#tempNum');
+    const rh = $('#rh'), rhNum = $('#rhNum');
+    const wind = $('#wind'), windNum = $('#windNum');
+    const mApp = $('#m-app');
+
+    const traf = $('#traf'), trafNum = $('#trafNum');
+    const ind = $('#ind'), indNum = $('#indNum');
+    const mAQI = $('#m-aqi');
+    const mSource = $('#m-source');
+
+    const ice = $('#ice'), iceNum = $('#iceNum');
+    const ev = $('#ev'), evNum = $('#evNum');
+    const mEff = $('#m-eff');
+
+    const barSvg = $('#barSvg');
+
+    // ========= 状态 =========
+    let state = {
+      theme: 'light',
+      mode: 'Public',
+      selected: { Streetcar: true, Train: false, Bike: false, Airplane: false, Car: false },
+      distance: 10,
+      paved: 60,
+      canopy: 20,
+      temp: 28,
+      rh: 60,
+      wind: 2,
+      traf: 6,
+      ind: 2,
+      ice: 25,
+      ev: 85,
+    };
+
+    // ========= 逻辑 =========
+    function drawBars(){
+      const data = Object.entries(EMISSIONS_G_PER_KM).map(([name,val])=>({name,val}));
+      const W=640, H=220, pad=32, barW=80, gap=36;
+      const maxVal = Math.max(...data.map(d=>d.val), 1);
+      const scale = (v)=> (H - pad*1.6) * (v/maxVal);
+
+      barSvg.innerHTML = '';
+      // axes
+      const axis = document.createElementNS('http://www.w3.org/2000/svg','line');
+      axis.setAttribute('x1', pad); axis.setAttribute('y1', H-pad);
+      axis.setAttribute('x2', W-pad); axis.setAttribute('y2', H-pad);
+      axis.setAttribute('stroke', getComputedStyle(document.body).color);
+      axis.setAttribute('stroke-width','1');
+      barSvg.appendChild(axis);
+
+      data.forEach((d,i)=>{
+        const x = pad + i*(barW+gap);
+        const h = scale(d.val);
+        const y = H - pad - h;
+
+        const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+        rect.setAttribute('x', x); rect.setAttribute('y', y);
+        rect.setAttribute('width', barW); rect.setAttribute('height', h);
+        rect.setAttribute('rx','6'); rect.setAttribute('ry','6');
+        rect.setAttribute('fill', 'currentColor'); rect.setAttribute('opacity','0.8');
+        barSvg.appendChild(rect);
+
+        const lab = document.createElementNS('http://www.w3.org/2000/svg','text');
+        lab.setAttribute('x', x + barW/2); lab.setAttribute('y', H - pad + 16);
+        lab.setAttribute('text-anchor','middle'); lab.setAttribute('font-size','12');
+        lab.textContent = d.name;
+        barSvg.appendChild(lab);
+
+        const val = document.createElementNS('http://www.w3.org/2000/svg','text');
+        val.setAttribute('x', x + barW/2); val.setAttribute('y', y - 6);
+        val.setAttribute('text-anchor','middle'); val.setAttribute('font-size','11');
+        val.setAttribute('class','muted');
+        val.textContent = d.val;
+        barSvg.appendChild(val);
+      });
+    }
+
+    function updateChips(){
+      for(const k in chips){
+        const on = !!state.selected[k];
+        chips[k].style.display = on ? 'inline-block' : 'none';
+      }
+    }
+
+    function totalCO2PerDay(){
+      const chosen = Object.entries(state.selected).filter(([,v])=>v).map(([k])=>k);
+      if(chosen.length===0) return 0;
+      const avg = chosen.reduce((s,k)=> s + EMISSIONS_G_PER_KM[k],0) / chosen.length;
+      return Math.round(avg * state.distance);
+    }
+
+    function heatIslandDelta(){
+      const dt = 0.02*state.paved - 0.015*state.canopy; // 占位
+      return Math.max(0, Number(dt.toFixed(2)));
+    }
+
+    function apparentTemp(){
+      const base = state.temp + heatIslandDelta();
+      const humidAdj = (state.rh - 50) * 0.04;
+      const windAdj = -Math.min(state.wind * 0.6, 4);
+      return Number((base + humidAdj + windAdj).toFixed(1));
+    }
+
+    function aqiToy(){
+      const score = state.traf * 6 + state.ind * 4; // 0-100 占位
+      return Math.round(score);
+    }
+
+    function efficiencyDelta(){
+      return Math.max(0, state.ev - state.ice);
+    }
+
+    function updateUI(){
+      // 顶部
+      mDist.textContent = state.distance;
+      const co2 = totalCO2PerDay();
+      mCO2.textContent = co2;
+      mBar.style.width = Math.min(100, (co2/3000)*100) + '%';
+
+      // 芯片
+      updateChips();
+
+      // 热岛与 Albedo
+      const dT = heatIslandDelta();
+      mUhiDT.textContent = dT.toFixed(2);
+      mUhiDT2.textContent = dT.toFixed(2);
+      const alb = Math.max(0, (100 - state.paved + state.canopy)/200).toFixed(2);
+      mAlbedo.textContent = alb;
+
+      // 舒适
+      mApp.textContent = apparentTemp().toFixed(1);
+
+      // 污染
+      const aqi = aqiToy();
+      mAQI.textContent = aqi;
+      mSource.textContent = (state.traf >= state.ind) ? '交通' : '工业';
+
+      // 能效
+      mEff.textContent = efficiencyDelta();
+
+      // 图
+      drawBars();
+    }
+
+    // ========= 事件绑定 =========
+    function bindPair(rangeEl, numEl, key, min=Number.MIN_SAFE_INTEGER, max=Number.MAX_SAFE_INTEGER){
+      rangeEl.addEventListener('input', ()=>{
+        state[key] = clamp(+rangeEl.value, min, max);
+        numEl.value = state[key];
+        updateUI();
+      });
+      numEl.addEventListener('input', ()=>{
+        state[key] = clamp(+numEl.value || 0, +rangeEl.min, +rangeEl.max);
+        rangeEl.value = state[key];
+        updateUI();
+      });
+    }
+
+    bindPair(distance, distanceNum, 'distance', 0, 50);
+    bindPair(paved, pavedNum, 'paved', 0, 100);
+    bindPair(canopy, canopyNum, 'canopy', 0, 60);
+    bindPair(temp, tempNum, 'temp', -10, 45);
+    bindPair(rh, rhNum, 'rh', 0, 100);
+    bindPair(wind, windNum, 'wind', 0, 12);
+    bindPair(traf, trafNum, 'traf', 0, 10);
+    bindPair(ind, indNum, 'ind', 0, 10);
+    bindPair(ice, iceNum, 'ice', 10, 45);
+    bindPair(ev, evNum, 'ev', 60, 95);
+
+    // 模式切换
+    $$('input[name="mode"]').forEach(r=>{
+      r.addEventListener('change', ()=>{
+        state.mode = r.value;
+        if(state.mode === 'Public'){
+          publicWrap.style.display = 'flex';
+          privateWrap.style.display = 'none';
+          state.selected.Car = false;
+          // 至少保证一个公共方式被选中
+          if(!state.selected.Streetcar && !state.selected.Train && !state.selected.Bike && !state.selected.Airplane){
+            state.selected.Streetcar = true;
+            publicWrap.querySelector('input[data-key="Streetcar"]').checked = true;
+          }
+        }else{
+          publicWrap.style.display = 'none';
+          privateWrap.style.display = 'flex';
+          // 清空公共方式
+          ['Streetcar','Train','Bike','Airplane'].forEach(k=>{
+            state.selected[k] = false;
+            publicWrap.querySelector(`input[data-key="${k}"]`).checked = false;
+          });
+          state.selected.Car = true;
+          privateWrap.querySelector('input[data-key="Car"]').checked = true;
+        }
+        updateUI();
+      });
+    });
+
+    // 方式选择
+    $$('#publicWrap input[type="checkbox"], #privateWrap input[type="checkbox"]').forEach(cb=>{
+      cb.addEventListener('change', ()=>{
+        const k = cb.getAttribute('data-key');
+        state.selected[k] = cb.checked;
+
+        // 保证在 Public 模式下至少选一个
+        if(state.mode==='Public'){
+          const any = ['Streetcar','Train','Bike','Airplane'].some(x=>state.selected[x]);
+          if(!any){
+            state.selected.Streetcar = true;
+            publicWrap.querySelector('input[data-key="Streetcar"]').checked = true;
+          }
+        }else{
+          // 私家车模式只能 Car
+          state.selected.Car = true;
+          cb.checked = true;
+        }
+        updateUI();
+      });
+    });
+
+    // 主题
+    themeBtn.addEventListener('click', ()=>{
+      const next = document.documentElement.getAttribute('data-theme')==='light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      themeBtn.textContent = next==='light' ? '暗色' : '亮色';
+      updateUI();
+    });
+
+    // 重置
+    resetBtn.addEventListener('click', ()=>{
+      state = {
+        theme: 'light',
+        mode: 'Public',
+        selected: { Streetcar: true, Train: false, Bike: false, Airplane: false, Car: false },
+        distance: 10,
+        paved: 60,
+        canopy: 20,
+        temp: 28,
+        rh: 60,
+        wind: 2,
+        traf: 6,
+        ind: 2,
+        ice: 25,
+        ev: 85,
+      };
+      // 同步控件
+      distance.value = distanceNum.value = state.distance;
+      paved.value = pavedNum.value = state.paved;
+      canopy.value = canopyNum.value = state.canopy;
+      temp.value = tempNum.value = state.temp;
+      rh.value = rhNum.value = state.rh;
+      wind.value = windNum.value = state.wind;
+      traf.value = trafNum.value = state.traf;
+      ind.value = indNum.value = state.ind;
+      ice.value = iceNum.value = state.ice;
+      ev.value = evNum.value = state.ev;
+
+      // 模式 UI
+      $$('input[name="mode"]').forEach(r=> r.checked = (r.value===state.mode));
+      publicWrap.style.display = 'flex';
+      privateWrap.style.display = 'none';
+      ['Streetcar','Train','Bike','Airplane'].forEach(k=>{
+        publicWrap.querySelector(`input[data-key="${k}"]`).checked = !!state.selected[k];
+      });
+      privateWrap.querySelector('input[data-key="Car"]').checked = false;
+
+      document.documentElement.setAttribute('data-theme','light');
+      themeBtn.textContent = '暗色';
+      updateUI();
+    });
+
+    // 弹窗
+    aboutBtn.addEventListener('click', ()=> aboutDlg.showModal());
+    aboutClose.addEventListener('click', ()=> aboutDlg.close());
+
+    // 初始化
+    updateUI();
+  </script>
+</body>
+</html>
