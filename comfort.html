@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Human Comfort — Sustainable Commuting</title>
+  <style>
+    :root{--bg:#f6f7f9;--fg:#111;--muted:#666;--card:#fff;--border:#e6e8ee;--accent:#0ea5e9;--shadow:0 10px 24px rgba(0,0,0,.06);}
+    html[data-theme="dark"]{--bg:#0b1220;--fg:#e5e7eb;--muted:#94a3b8;--card:#0f172a;--border:#1f2937;--accent:#7dd3fc;--shadow:0 10px 24px rgba(0,0,0,.4);}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial}
+    a{color:var(--accent);text-decoration:none}
+    .container{max-width:900px;margin:0 auto;padding:0 16px}
+    header{border-bottom:1px solid var(--border);background:linear-gradient(90deg, rgba(56,189,248,.12), rgba(129,140,248,.12));}
+    .head{display:flex;justify-content:space-between;align-items:center;padding:16px 0;gap:12px}
+    .title h1{margin:0;font-size:20px}
+    .title p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;font-size:13px}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);margin-top:16px}
+    .card .hd{padding:14px 16px;border-bottom:1px solid var(--border)}
+    .card .hd h2{margin:0;font-size:17px}
+    .card .bd{padding:14px 16px}
+    .muted{color:var(--muted)}
+    .footer{text-align:center;color:var(--muted);font-size:12px;margin:24px 0}
+  </style>
+</head>
+<body>
+<header>
+  <div class="container head">
+    <div class="title">
+      <h1>Human Comfort</h1>
+      <p>Thermal comfort under different weather and commuting conditions.</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" id="themeBtn">Dark</button>
+      <a class="btn" href="index.html">← Back to Main Page</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <!-- 1. Information -->
+  <section class="card">
+    <div class="hd"><h2>1. Information</h2></div>
+    <div class="bd">
+      <p>Human thermal comfort depends on a combination of <b>air temperature</b>, <b>humidity</b>, <b>wind speed</b>, radiation, clothing and activity level. In urban streets and transit corridors, heat exposure can be amplified by the urban heat island effect.</p>
+      <p>Common metrics used in this course include the heat index or the Universal Thermal Climate Index (UTCI), which combine meteorological variables into a single “feels-like” temperature.</p>
+      <p><b>Example simplified relationship (placeholder):</b></p>
+      <ul>
+        <li>Apparent temperature used in the main page:  
+          <code>T<sub>app</sub> ≈ T + f(RH) − g(Wind) + ΔT<sub>UHI</sub></code>  
+          where:
+          <ul>
+            <li><code>T</code> = air temperature (°C)</li>
+            <li><code>RH</code> = relative humidity (%)</li>
+            <li><code>Wind</code> = wind speed (m/s)</li>
+            <li><code>ΔT<sub>UHI</sub></code> = urban heat island temperature increase</li>
+          </ul>
+        </li>
+      </ul>
+      <p class="muted">* Replace with the specific index or formula chosen by your group (e.g., official heat index equation, UTCI table).</p>
+    </div>
+  </section>
+
+  <!-- 2. Creative Component -->
+  <section class="card">
+    <div class="hd"><h2>2. Creative Component</h2></div>
+    <div class="bd">
+      <p><b>Add your creative component here.</b></p>
+      <p class="muted">For example: a poster comparing comfort levels on a shaded bike lane vs. an asphalt parking lot, or a short video explaining how humidity and wind change “feels-like” temperature for commuters.</p>
+    </div>
+  </section>
+
+  <!-- 3. References -->
+  <section class="card">
+    <div class="hd"><h2>3. References</h2></div>
+    <div class="bd">
+      <p><b>Add your reference part here.</b></p>
+      <p class="muted">Include key studies on thermal comfort indices, heat-health impacts, and urban microclimate around transit corridors.</p>
+    </div>
+  </section>
+
+  <div class="footer">Human Comfort · CIV300 Project</div>
+</main>
+
+<script>
+  const themeBtn = document.getElementById('themeBtn');
+  themeBtn.addEventListener('click', ()=>{
+    const next = document.documentElement.getAttribute('data-theme')==='light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    themeBtn.textContent = next==='light' ? 'Dark' : 'Light';
+  });
+</script>
+</body>
+</html>

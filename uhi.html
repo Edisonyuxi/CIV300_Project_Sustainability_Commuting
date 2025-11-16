@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Urban Heat Island — Sustainable Commuting</title>
+  <style>
+    :root{
+      --bg:#f6f7f9; --fg:#111; --muted:#666; --card:#fff; --border:#e6e8ee; --accent:#0ea5e9;
+      --shadow:0 10px 24px rgba(0,0,0,.06);
+    }
+    html[data-theme="dark"]{
+      --bg:#0b1220; --fg:#e5e7eb; --muted:#94a3b8; --card:#0f172a; --border:#1f2937; --accent:#7dd3fc;
+      --shadow:0 10px 24px rgba(0,0,0,.4);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial}
+    a{color:var(--accent);text-decoration:none}
+    .container{max-width:900px;margin:0 auto;padding:0 16px}
+    header{border-bottom:1px solid var(--border);background:linear-gradient(90deg, rgba(16,185,129,.10), rgba(14,165,233,.10));}
+    .head{display:flex;justify-content:space-between;align-items:center;padding:16px 0;gap:12px}
+    .title h1{margin:0;font-size:20px}
+    .title p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;font-size:13px}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);margin-top:16px}
+    .card .hd{padding:14px 16px;border-bottom:1px solid var(--border)}
+    .card .hd h2{margin:0;font-size:17px}
+    .card .bd{padding:14px 16px}
+    .muted{color:var(--muted)}
+    .footer{text-align:center;color:var(--muted);font-size:12px;margin:24px 0}
+  </style>
+</head>
+<body>
+<header>
+  <div class="container head">
+    <div class="title">
+      <h1>Urban Heat Island</h1>
+      <p>Linked to albedo, energy absorption, and surface characteristics.</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" id="themeBtn">Dark</button>
+      <a class="btn" href="index.html">← Back to Main Page</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <!-- 1. Information -->
+  <section class="card">
+    <div class="hd"><h2>1. Information</h2></div>
+    <div class="bd">
+      <p>Urban heat island (UHI) describes the tendency for built-up areas to be warmer than surrounding rural regions. Paved roads, rooftops, and parking lots often have <b>low albedo</b> and high heat capacity, so they absorb and store more solar energy during the day and release it as sensible heat at night.</p>
+      <p>In this project, we focus on how transportation infrastructure (roads, parking, transit corridors) changes the local surface energy balance and affects UHI intensity.</p>
+      <p><b>Example simplified relationships (placeholders):</b></p>
+      <ul>
+        <li>UHI temperature difference:  
+          <code>ΔT<sub>UHI</sub> ≈ 0.02 × Paved% − 0.015 × TreeCanopy%</code></li>
+        <li>Albedo indicator (0–1, higher = more reflective):  
+          <code>α ≈ (100 − Paved% + TreeCanopy%) / 200</code></li>
+        <li>Conceptual link: lower albedo → more net radiation absorbed → higher sensible heat flux and air temperature.</li>
+      </ul>
+      <p class="muted">* Replace these placeholder formulas with course-approved relationships or values from literature.</p>
+    </div>
+  </section>
+
+  <!-- 2. Creative Component placeholder -->
+  <section class="card">
+    <div class="hd"><h2>2. Creative Component</h2></div>
+    <div class="bd">
+      <p><b>Add your creative component here.</b></p>
+      <p class="muted">For example: infographic/poster comparing UHI in car-oriented vs transit-oriented corridors, or a short video explaining how albedo and tree canopy modify local temperature.</p>
+    </div>
+  </section>
+
+  <!-- 3. References placeholder -->
+  <section class="card">
+    <div class="hd"><h2>3. References</h2></div>
+    <div class="bd">
+      <p><b>Add your reference part here.</b></p>
+      <p class="muted">List key sources on UHI, albedo, and transportation infrastructure (10–15 credible references overall across the project, using IEEE or Chicago format).</p>
+    </div>
+  </section>
+
+  <div class="footer">Urban Heat Island · CIV300 Project</div>
+</main>
+
+<script>
+  const themeBtn = document.getElementById('themeBtn');
+  themeBtn.addEventListener('click', ()=>{
+    const next = document.documentElement.getAttribute('data-theme')==='light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    themeBtn.textContent = next==='light' ? 'Dark' : 'Light';
+  });
+</script>
+</body>
+</html>
