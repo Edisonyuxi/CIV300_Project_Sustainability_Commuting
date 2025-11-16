@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="light">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
@@ -89,33 +89,33 @@
         <p>Public Transit vs Private Cars · Heat Island · Comfort · Air Quality · Energy</p>
       </div>
       <div class="row">
-        <button class="btn" id="themeBtn">暗色</button>
-        <button class="btn" id="resetBtn">重置</button>
-        <button class="btn" id="aboutBtn">说明/占位</button>
+        <button class="btn" id="themeBtn">Dark</button>
+        <button class="btn" id="resetBtn">Reset</button>
+        <button class="btn" id="aboutBtn">Info</button>
       </div>
     </div>
   </header>
 
   <main class="container">
-    <!-- 情景构建器 + Earth 表情 -->
+    <!-- Scenario builder + Earth face -->
     <section class="card">
-      <div class="hd"><h3>🚆 你的通勤情景（可交互）</h3></div>
+      <div class="hd"><h3>🚆 Your commuting scenario (interactive)</h3></div>
       <div class="bd">
         <div class="row">
           <div class="field">
-            <label>通勤距离（往返，km）</label>
+            <label>Commute distance (round-trip, km)</label>
             <input type="range" id="distance" min="0" max="50" step="1" value="10">
             <input type="number" id="distanceNum" value="10">
           </div>
         </div>
 
         <div class="row" style="margin-top:8px">
-          <div class="pill">出行类型：</div>
-          <label class="switch"><input type="radio" name="mode" value="Public" checked> 公共交通</label>
-          <label class="switch"><input type="radio" name="mode" value="Private"> 私家车</label>
+          <div class="pill">Travel type:</div>
+          <label class="switch"><input type="radio" name="mode" value="Public" checked> Public transit</label>
+          <label class="switch"><input type="radio" name="mode" value="Private"> Private car</label>
 
           <div id="publicWrap" class="row" style="margin-left:8px">
-            <span class="pill">选择方式：</span>
+            <span class="pill">Choose modes:</span>
             <label class="switch"><input type="checkbox" data-key="Streetcar" checked> Streetcar</label>
             <label class="switch"><input type="checkbox" data-key="Train"> Train</label>
             <label class="switch"><input type="checkbox" data-key="Bike"> Bike</label>
@@ -123,7 +123,7 @@
           </div>
 
           <div id="privateWrap" class="row" style="display:none;margin-left:8px">
-            <label class="switch"><input type="checkbox" data-key="Car"> Car（私家车）</label>
+            <label class="switch"><input type="checkbox" data-key="Car"> Car (private)</label>
           </div>
         </div>
 
@@ -139,15 +139,15 @@
 
         <div class="metrics" style="margin-top:8px">
           <div class="metric">
-            <span class="lab">通勤距离</span>
+            <span class="lab">Commute distance</span>
             <span class="val"><span id="m-dist">10</span> km</span>
           </div>
           <div class="metric">
-            <span class="lab">CO₂ 估算</span>
-            <span class="val"><span id="m-co2">0</span> g/天</span>
+            <span class="lab">Estimated CO₂</span>
+            <span class="val"><span id="m-co2">0</span> g/day</span>
           </div>
           <div class="metric" style="min-width:240px">
-            <span class="lab">进度条（以 3000 g/天 为参考）</span>
+            <span class="lab">Progress bar (reference: 3000 g/day)</span>
             <div class="progress"><span id="m-bar" style="width:0%"></span></div>
           </div>
           <div class="metric">
@@ -159,10 +159,10 @@
           </div>
         </div>
 
-        <p class="note">* 占位：请用课程数据替换下面常量 <code>EMISSIONS_G_PER_KM</code>。</p>
+        <p class="note">* Placeholder: please replace the constant <code>EMISSIONS_G_PER_KM</code> with course data.</p>
 
         <div class="bd">
-          <h4 style="margin:8px 0 4px">不同方式的单位排放（g CO₂ / km，示意）</h4>
+          <h4 style="margin:8px 0 4px">Unit emissions of each mode (g CO₂ / km, illustrative)</h4>
           <div class="svg-wrap">
             <svg id="barSvg" width="100%" height="100%" viewBox="0 0 640 220" preserveAspectRatio="xMidYMid meet" aria-label="Bar chart"></svg>
           </div>
@@ -170,7 +170,7 @@
       </div>
     </section>
 
-    <!-- 四个概念 TAG 卡片 -->
+    <!-- Four concept tag cards -->
     <section class="grid tags-grid">
       <div class="card tag-card">
         <div class="hd"><h3>Urban Heat Island</h3></div>
@@ -205,27 +205,27 @@
       </div>
     </section>
 
-    <div class="footer">Main Page · Replace placeholder numbers with course data · Deploy on GitHub Pages</div>
+    <div class="footer">Main Page · Replace placeholder numbers with course data · Deployed on GitHub Pages</div>
   </main>
 
-  <!-- 说明弹窗 -->
+  <!-- Info dialog -->
   <dialog id="aboutDialog">
-    <div class="d-hd"><b>项目说明（Main Page 占位）</b></div>
+    <div class="d-hd"><b>Project notes (Main Page placeholder)</b></div>
     <div class="d-bd">
-      <p>此页面展示通勤情景与四个概念入口。详细内容（信息/创意/参考文献）请在各自子页面完善。</p>
+      <p>This page shows the commuting scenario and four concept entries. Please complete details (information / creative component / references) in each concept subpage.</p>
       <ul class="list">
-        <li>用真实的排放因子替换 <code>EMISSIONS_G_PER_KM</code>；</li>
-        <li>在四个子页面中补充课程概念说明、创意组件和引用；</li>
-        <li>保持书面 Part B 报告与网页叙述风格一致。</li>
+        <li>Replace <code>EMISSIONS_G_PER_KM</code> with real emission factors from course data or literature.</li>
+        <li>Add concept explanations, creative components, and references in the four subpages.</li>
+        <li>Keep the narrative consistent with the written Part B report.</li>
       </ul>
       <div style="text-align:right;margin-top:10px">
-        <button class="btn" id="aboutClose">关闭</button>
+        <button class="btn" id="aboutClose">Close</button>
       </div>
     </div>
   </dialog>
 
   <script>
-    // ========== 占位排放常量（可替换） ==========
+    // ========== Placeholder emission factors (to be replaced) ==========
     const EMISSIONS_G_PER_KM = {
       Car: 180,
       Streetcar: 70,
@@ -267,7 +267,7 @@
     const earthTextEl = $('#earth-text');
     const earthFaceEl = $('#earth-face');
 
-    // 三段阈值（g/天），可按需要调整
+    // Three-threshold mood ranges (g/day) – adjust as needed
     const HAPPY_MAX = 800;
     const NEUTRAL_MAX = 2000;
 
@@ -381,7 +381,7 @@
 
     bindPair(distance, distanceNum, 'distance', 0, 50);
 
-    // 模式切换
+    // Mode switch
     $$('input[name="mode"]').forEach(r=>{
       r.addEventListener('change', ()=>{
         state.mode = r.value;
@@ -412,7 +412,7 @@
       });
     });
 
-    // 方式选择
+    // Mode selection within group
     $$('#publicWrap input[type="checkbox"], #privateWrap input[type="checkbox"]').forEach(cb=>{
       cb.addEventListener('change', ()=>{
         const k = cb.getAttribute('data-key');
@@ -425,6 +425,7 @@
             publicWrap.querySelector('input[data-key="Streetcar"]').checked = true;
           }
         }else{
+          // Always keep car selected in private mode
           state.selected.Car = true;
           cb.checked = true;
         }
@@ -432,15 +433,15 @@
       });
     });
 
-    // 主题
+    // Theme toggle
     themeBtn.addEventListener('click', ()=>{
       const next = document.documentElement.getAttribute('data-theme')==='light' ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', next);
-      themeBtn.textContent = next==='light' ? '暗色' : '亮色';
+      themeBtn.textContent = next==='light' ? 'Dark' : 'Light';
       updateUI();
     });
 
-    // 重置
+    // Reset
     resetBtn.addEventListener('click', ()=>{
       state = {
         theme:'light',
@@ -458,15 +459,15 @@
       });
       privateWrap.querySelector('input[data-key="Car"]').checked = false;
       document.documentElement.setAttribute('data-theme','light');
-      themeBtn.textContent = '暗色';
+      themeBtn.textContent = 'Dark';
       updateUI();
     });
 
-    // 弹窗
+    // Dialog
     aboutBtn.addEventListener('click', ()=> aboutDlg.showModal());
     aboutClose.addEventListener('click', ()=> aboutDlg.close());
 
-    // 初始化
+    // Init
     updateUI();
   </script>
 </body>
