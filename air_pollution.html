@@ -16,6 +16,8 @@
       --bad:#ef4444;
       --ok:#f97316;
       --good:#22c55e;
+      --blue:#3b82f6;
+      --purple:#8b5cf6;
     }
     html[data-theme="dark"]{
       --bg:#0b1220;
@@ -86,7 +88,7 @@
       margin:24px 0;
     }
 
-    /* 小标签 / badge */
+    /* Small badge / pill */
     .pill{
       display:inline-flex;
       align-items:center;
@@ -100,7 +102,7 @@
       white-space:nowrap;
     }
 
-    /* 数据表样式 */
+    /* Data table styling */
     .table-wrap{
       width:100%;
       overflow-x:auto;
@@ -152,6 +154,54 @@
       color:var(--muted);
       background:rgba(148,163,184,.05);
     }
+
+    /* Simple horizontal bar "chart" */
+    .mini-chart{
+      margin-top:12px;
+      border-radius:12px;
+      padding:10px 10px 8px;
+      background:rgba(148,163,184,.06);
+      border:1px solid var(--border);
+      font-size:11px;
+    }
+    .mini-chart-title{
+      margin:0 0 6px;
+      font-size:11px;
+      font-weight:600;
+      color:var(--muted);
+    }
+    .mini-bar-row{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      margin:4px 0;
+    }
+    .mini-bar-label{
+      flex:0 0 135px;
+      white-space:nowrap;
+    }
+    .mini-bar-track{
+      flex:1;
+      height:10px;
+      border-radius:999px;
+      background:rgba(226,232,240,.8);
+      overflow:hidden;
+    }
+    .mini-bar-fill{
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--blue),var(--purple));
+      width:0;
+    }
+    .mini-bar-value{
+      flex:0 0 90px;
+      text-align:right;
+      color:var(--muted);
+    }
+    /* Use CSS variable --w as percentage width */
+    .mini-bar-fill{
+      width:var(--w,0%);
+    }
   </style>
 </head>
 <body>
@@ -159,7 +209,7 @@
   <div class="container head">
     <div class="title">
       <h1>Air Composition & Pollution</h1>
-      <p>Emissions from different transport modes and their impact on urban air quality.</p>
+      <p>Emissions from different private vehicle types and their impact on urban air quality.</p>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn" id="themeBtn">Dark</button>
@@ -179,29 +229,34 @@
       <p>
         Transport emissions change the chemical composition of the lower atmosphere. 
         Internal combustion engine vehicles (ICEVs) emit <b>carbon dioxide (CO₂)</b> from fuel combustion, 
-        and also local pollutants such as <b>NOₓ</b>, <b>PM₂.₅</b>, <b>CO</b>, and <b>VOCs</b> that contribute to smog 
-        and health impacts.
+        as well as local air pollutants such as <b>nitrogen oxides (NOₓ)</b>, 
+        <b>fine particulate matter (PM₂.₅)</b>, <b>carbon monoxide (CO)</b>, 
+        and <b>volatile organic compounds (VOCs)</b>. 
+        These pollutants contribute to smog formation and adverse health impacts.
       </p>
       <p>
-        In this page, we focus on <b>annual CO₂ emissions from different vehicle classes in the Toronto region</b>, 
-        using typical fuel consumption (L/100&nbsp;km), annual distance travelled (km/year) and fuel emission factors (kg&nbsp;CO₂/L). 
-        We then combine these with an estimate of how many vehicles of each type are on the road.
+        In this page, we focus on a simple but important part of the problem: 
+        <b>annual CO₂ emissions from different classes of private vehicles in the Toronto region</b>. 
+        Using typical fuel consumption (L/100&nbsp;km), yearly distance travelled (km/year) and fuel emission factors (kg&nbsp;CO₂/L), 
+        we can estimate how much CO₂ an average vehicle emits in a year, and then scale this up using the number of vehicles in each class.
       </p>
 
       <p><b>Per-vehicle annual CO₂ model</b></p>
       <ul>
-        <li>Fuel emission factor (EF): 
+        <li>Fuel emission factors (including common ethanol blends):  
           gasoline ≈ <code>2.3 kg CO₂/L</code>, diesel ≈ <code>2.7 kg CO₂/L</code>.</li>
         <li>Annual emissions per vehicle:  
-          <code>CO₂&nbsp;(t/vehicle·year) = d × FC × EF / 1000</code>  
-          where <code>d</code> = annual distance (km/year), <code>FC</code> = fuel consumption (L/100&nbsp;km).</li>
-        <li>City-wide emissions for each category:  
+          <code>CO₂&nbsp;(t/vehicle·year) = d × FC × EF / 1000</code>,  
+          where <code>d</code> = annual distance (km/year), <code>FC</code> = fuel consumption (L/100&nbsp;km), 
+          <code>EF</code> = emission factor (kg&nbsp;CO₂/L).</li>
+        <li>City-wide emissions for each class:  
           <code>CO₂<sub>total</sub> = CO₂<sub>per&nbsp;vehicle</sub> × number&nbsp;of&nbsp;vehicles</code>.</li>
       </ul>
 
       <p class="muted">
-        The tables below show a stylized estimate for Toronto (2024), based on Canadian federal data and 
-        a simple breakdown of gasoline cars, SUVs, sports/2-seaters, diesel vehicles, and motorcycles.
+        The numbers below are stylized estimates for Toronto in 2024 based on federal data. 
+        They focus on CO₂ from tailpipe fuel use only; upstream emissions (fuel production) 
+        and non-CO₂ pollutants are not included here.
       </p>
     </div>
   </section>
@@ -210,27 +265,29 @@
   <section class="card">
     <div class="hd">
       <h2>2. Creative Component</h2>
-      <span class="pill">Data table · CO₂ by vehicle type</span>
+      <span class="pill">Data tables & simple visualisation</span>
     </div>
     <div class="bd">
       <p><b>2.1 Per-vehicle CO₂ assumptions</b></p>
-      <p class="muted">Default fuel consumption, annual distance and emission factors used to estimate annual CO₂ per vehicle.</p>
+      <p class="muted">
+        Default fuel consumption, annual distance and emission factors used to estimate annual CO₂ per vehicle.
+      </p>
 
       <div class="table-wrap">
         <table class="data-table">
           <thead>
             <tr>
-              <th>Category / 类别</th>
-              <th>Fuel<br>(燃料)</th>
-              <th>FC<br>(L/100&nbsp;km)</th>
-              <th>Annual distance d<br>(km/年)</th>
+              <th>Category</th>
+              <th>Fuel</th>
+              <th>Fuel consumption FC<br>(L/100&nbsp;km)</th>
+              <th>Annual distance d<br>(km/year)</th>
               <th>EF<br>(kg&nbsp;CO₂/L)</th>
-              <th>CO₂ per vehicle<br>(t/车·年)</th>
+              <th>CO₂ per vehicle<br>(t/vehicle·year)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Car 轿车 (gasoline)</td>
+              <td>Car (gasoline)</td>
               <td><span class="tag tag-gas">Gasoline</span></td>
               <td>8.8</td>
               <td>15,000</td>
@@ -246,7 +303,7 @@
               <td class="highlight-number">4.23</td>
             </tr>
             <tr>
-              <td>Sports / 2-seater 跑车/双座 (gasoline)</td>
+              <td>Sports / 2-seater (gasoline)</td>
               <td><span class="tag tag-gas">Gasoline</span></td>
               <td>10.5</td>
               <td>12,000</td>
@@ -254,7 +311,7 @@
               <td class="highlight-number">2.90</td>
             </tr>
             <tr>
-              <td>Car 轿车 (diesel)</td>
+              <td>Car (diesel)</td>
               <td><span class="tag tag-diesel">Diesel</span></td>
               <td>7.0</td>
               <td>15,000</td>
@@ -270,7 +327,7 @@
               <td class="highlight-number">3.89</td>
             </tr>
             <tr>
-              <td>Motorcycle 摩托车 (gasoline)</td>
+              <td>Motorcycle (gasoline)</td>
               <td><span class="tag tag-motor">Gasoline</span></td>
               <td>5.0</td>
               <td>4,500</td>
@@ -282,8 +339,8 @@
       </div>
 
       <div class="note-box">
-        Example: for gasoline cars, 
-        <code>CO₂ = 15,000 × 0.088 × 2.3 / 1000 ≈ 3.04 t/车·年</code>.
+        Example calculation (gasoline car): 
+        <code>CO₂ = 15,000 × 0.088 × 2.3 / 1000 ≈ 3.04 t/vehicle·year</code>.
       </div>
 
       <hr style="border:none;border-top:1px solid var(--border);margin:16px 0">
@@ -297,15 +354,15 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th>Category / 类别 (Toronto est. 2024)</th>
-              <th>Number of vehicles<br>数量（辆）</th>
-              <th>CO₂ per vehicle<br>(t/车·年)</th>
-              <th>Annual CO₂ total<br>(t/年)</th>
+              <th>Category (Toronto, 2024 est.)</th>
+              <th>Number of vehicles</th>
+              <th>CO₂ per vehicle<br>(t/vehicle·year)</th>
+              <th>Annual CO₂ total<br>(t/year)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Car 轿车 (gasoline)</td>
+              <td>Car (gasoline)</td>
               <td>468,082</td>
               <td>3.04</td>
               <td class="highlight-number">1,422,969</td>
@@ -317,13 +374,13 @@
               <td class="highlight-number">2,424,243</td>
             </tr>
             <tr>
-              <td>Sports / 2-seater 跑车/双座 (gasoline)</td>
+              <td>Sports / 2-seater (gasoline)</td>
               <td>131,645</td>
               <td>2.90</td>
               <td class="highlight-number">381,771</td>
             </tr>
             <tr>
-              <td>Car 轿车 (diesel)</td>
+              <td>Car (diesel)</td>
               <td>5,851</td>
               <td>2.84</td>
               <td>16,617</td>
@@ -335,26 +392,62 @@
               <td>21,815</td>
             </tr>
             <tr>
-              <td>Motorcycle 摩托车 (gasoline)</td>
+              <td>Motorcycle (gasoline)</td>
               <td>34,130</td>
               <td>0.52</td>
               <td>17,748</td>
             </tr>
             <tr>
-              <td><b>Total 合计</b></td>
+              <td><b>Total</b></td>
               <td><b>1,218,423</b></td>
               <td>–</td>
-              <td class="highlight-number"><b>4,285,162 t/年 ≈ 4.29 Mt/年</b></td>
+              <td class="highlight-number"><b>4,285,162 t/year ≈ 4.29 Mt/year</b></td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="note-box">
-        This simple model suggests that private cars, SUVs and motorcycles in the Toronto area 
-        emit on the order of <b>4.3 Mt CO₂ per year</b>, before accounting for upstream fuel production 
-        or non-CO₂ pollutants such as NOₓ and PM₂.₅.
+      <!-- Simple "image-like" visual: horizontal bar comparison -->
+      <div class="mini-chart">
+        <p class="mini-chart-title">Share of annual CO₂ emissions by vehicle category (relative scale)</p>
+
+        <!-- 计算出来的相对占比大约：SUV gas 57% / car gas 33% / sports 9% / others ~1% -->
+        <div class="mini-bar-row">
+          <div class="mini-bar-label">SUV (gasoline)</div>
+          <div class="mini-bar-track">
+            <div class="mini-bar-fill" style="--w:57%;"></div>
+          </div>
+          <div class="mini-bar-value">≈ 57%</div>
+        </div>
+        <div class="mini-bar-row">
+          <div class="mini-bar-label">Car (gasoline)</div>
+          <div class="mini-bar-track">
+            <div class="mini-bar-fill" style="--w:33%;"></div>
+          </div>
+          <div class="mini-bar-value">≈ 33%</div>
+        </div>
+        <div class="mini-bar-row">
+          <div class="mini-bar-label">Sports / 2-seater</div>
+          <div class="mini-bar-track">
+            <div class="mini-bar-fill" style="--w:9%;"></div>
+          </div>
+          <div class="mini-bar-value">≈ 9%</div>
+        </div>
+        <div class="mini-bar-row">
+          <div class="mini-bar-label">Diesel cars & SUVs + motorcycles</div>
+          <div class="mini-bar-track">
+            <div class="mini-bar-fill" style="--w:1%;"></div>
+          </div>
+          <div class="mini-bar-value">&lt; 2%</div>
+        </div>
+
+        <div class="note-box">
+          Most of the estimated CO₂ comes from gasoline cars and especially gasoline SUVs. 
+          Shifting even a fraction of these trips to public transit, walking or cycling 
+          would noticeably reduce transport-related emissions.
+        </div>
       </div>
+
     </div>
   </section>
 
@@ -367,14 +460,14 @@
           <p><b>Fuel carbon content & emission factors</b></p>
           <ul>
             <li>
-              U.S. Energy Information Administration (EIA). 
+              U.S. Energy Information Administration (EIA).  
               <a href="https://www.eia.gov/energyexplained/gasoline/octane-in-depth.php" target="_blank">
                 Gasoline explained – Octane in depth.
               </a>
             </li>
             <li>
               University of Waterloo – Centre for Advanced Science Education.  
-              “Gasoline and diesel fuel carbon pricing and heating values”  
+              “Gasoline and diesel fuel carbon pricing and heating values.”  
               <a href="https://uwaterloo.ca/centre-advanced-science-education/news/gasoline-and-diesel-fuel-carbon-pricing-and-heating-values" target="_blank">
                 Article link
               </a>  
@@ -426,8 +519,8 @@
               Statistics Canada – Vehicle registrations by census metropolitan area:  
               <a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2310030801" target="_blank">
                 Table 23-10-0308-01
-              </a><br>
-              Used to approximate counts of gasoline cars, SUVs, sports/2-seaters, diesel vehicles and motorcycles in Toronto.
+              </a>  
+              used to approximate counts of gasoline cars, SUVs, sports/2-seaters, diesel vehicles and motorcycles in Toronto.
             </li>
           </ul>
         </li>
