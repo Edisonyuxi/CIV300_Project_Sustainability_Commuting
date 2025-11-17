@@ -5,24 +5,153 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Air Composition & Pollution — Sustainable Commuting</title>
   <style>
-    :root{--bg:#f6f7f9;--fg:#111;--muted:#666;--card:#fff;--border:#e6e8ee;--accent:#0ea5e9;--shadow:0 10px 24px rgba(0,0,0,.06);}
-    html[data-theme="dark"]{--bg:#0b1220;--fg:#e5e7eb;--muted:#94a3b8;--card:#0f172a;--border:#1f2937;--accent:#7dd3fc;--shadow:0 10px 24px rgba(0,0,0,.4);}
+    :root{
+      --bg:#f6f7f9;
+      --fg:#111;
+      --muted:#666;
+      --card:#fff;
+      --border:#e6e8ee;
+      --accent:#0ea5e9;
+      --shadow:0 10px 24px rgba(0,0,0,.06);
+      --bad:#ef4444;
+      --ok:#f97316;
+      --good:#22c55e;
+    }
+    html[data-theme="dark"]{
+      --bg:#0b1220;
+      --fg:#e5e7eb;
+      --muted:#94a3b8;
+      --card:#0f172a;
+      --border:#1f2937;
+      --accent:#7dd3fc;
+      --shadow:0 10px 24px rgba(0,0,0,.4);
+    }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--fg);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    }
     a{color:var(--accent);text-decoration:none}
     .container{max-width:900px;margin:0 auto;padding:0 16px}
-    header{border-bottom:1px solid var(--border);background:linear-gradient(90deg, rgba(59,130,246,.12), rgba(56,189,248,.12));}
-    .head{display:flex;justify-content:space-between;align-items:center;padding:16px 0;gap:12px}
+    header{
+      border-bottom:1px solid var(--border);
+      background:linear-gradient(90deg, rgba(59,130,246,.12), rgba(56,189,248,.12));
+    }
+    .head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 0;
+      gap:12px;
+    }
     .title h1{margin:0;font-size:20px}
     .title p{margin:2px 0 0;font-size:12px;color:var(--muted)}
-    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;font-size:13px}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:8px 12px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:transparent;
+      color:var(--fg);
+      cursor:pointer;
+      font-size:13px;
+    }
     .btn:hover{background:rgba(0,0,0,.04)}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);margin-top:16px}
-    .card .hd{padding:14px 16px;border-bottom:1px solid var(--border)}
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      margin-top:16px;
+    }
+    .card .hd{
+      padding:14px 16px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
     .card .hd h2{margin:0;font-size:17px}
     .card .bd{padding:14px 16px}
     .muted{color:var(--muted)}
-    .footer{text-align:center;color:var(--muted);font-size:12px;margin:24px 0}
+    .footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      margin:24px 0;
+    }
+
+    /* 小标签 / badge */
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      padding:2px 8px;
+      border-radius:999px;
+      font-size:11px;
+      border:1px solid var(--border);
+      background:rgba(148,163,184,.08);
+      color:var(--muted);
+      white-space:nowrap;
+    }
+
+    /* 数据表样式 */
+    .table-wrap{
+      width:100%;
+      overflow-x:auto;
+      margin:8px 0 4px;
+    }
+    table.data-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:12px;
+      min-width:640px;
+    }
+    table.data-table thead{
+      background:rgba(148,163,184,.08);
+    }
+    table.data-table th,
+    table.data-table td{
+      padding:6px 8px;
+      border-bottom:1px solid var(--border);
+      text-align:right;
+      vertical-align:middle;
+      white-space:nowrap;
+    }
+    table.data-table th:first-child,
+    table.data-table td:first-child{
+      text-align:left;
+    }
+    table.data-table tbody tr:nth-child(odd){
+      background:rgba(148,163,184,.04);
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      padding:2px 6px;
+      border-radius:999px;
+      font-size:11px;
+      border:1px solid var(--border);
+    }
+    .tag-gas{background:rgba(239,68,68,.08);color:var(--bad);}
+    .tag-diesel{background:rgba(245,158,11,.08);color:var(--ok);}
+    .tag-motor{background:rgba(52,211,153,.08);color:var(--good);}
+    .highlight-number{font-weight:600;}
+
+    .note-box{
+      margin-top:8px;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px dashed var(--border);
+      font-size:11px;
+      color:var(--muted);
+      background:rgba(148,163,184,.05);
+    }
   </style>
 </head>
 <body>
@@ -30,7 +159,7 @@
   <div class="container head">
     <div class="title">
       <h1>Air Composition & Pollution</h1>
-      <p>Emissions from different transport modes and their impact on air quality.</p>
+      <p>Emissions from different transport modes and their impact on urban air quality.</p>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn" id="themeBtn">Dark</button>
@@ -42,27 +171,190 @@
 <main class="container">
   <!-- 1. Information -->
   <section class="card">
-    <div class="hd"><h2>1. Information</h2></div>
+    <div class="hd">
+      <h2>1. Information</h2>
+      <span class="pill">CO₂ & local pollutants · Toronto private vehicles</span>
+    </div>
     <div class="bd">
-      <p>Transport emissions change the chemical composition of the lower atmosphere. Internal combustion engines emit carbon dioxide (CO₂) as well as local air pollutants such as nitrogen oxides (NOₓ), particulate matter (PM₂.₅, PM₁₀), carbon monoxide (CO), and volatile organic compounds (VOCs). These pollutants contribute to smog formation and adverse health effects.</p>
-      <p>Public transit and active modes generally emit less pollution per passenger-kilometre than single-occupancy cars, especially when powered by cleaner electricity mixes.</p>
-      <p><b>Example simplified indicator used in the main page (placeholder):</b></p>
+      <p>
+        Transport emissions change the chemical composition of the lower atmosphere. 
+        Internal combustion engine vehicles (ICEVs) emit <b>carbon dioxide (CO₂)</b> from fuel combustion, 
+        and also local pollutants such as <b>NOₓ</b>, <b>PM₂.₅</b>, <b>CO</b>, and <b>VOCs</b> that contribute to smog 
+        and health impacts.
+      </p>
+      <p>
+        In this page, we focus on <b>annual CO₂ emissions from different vehicle classes in the Toronto region</b>, 
+        using typical fuel consumption (L/100&nbsp;km), annual distance travelled (km/year) and fuel emission factors (kg&nbsp;CO₂/L). 
+        We then combine these with an estimate of how many vehicles of each type are on the road.
+      </p>
+
+      <p><b>Per-vehicle annual CO₂ model</b></p>
       <ul>
-        <li>Composite air quality score:  
-          <code>AQI* ≈ 6 × TrafficIndex + 4 × IndustryIndex</code>  
-          where indices range from 0–10 and higher values indicate stronger sources.</li>
-        <li>Conceptual link: higher scores correspond to higher concentrations of NOₓ, PM and O₃ precursors.</li>
+        <li>Fuel emission factor (EF): 
+          gasoline ≈ <code>2.3 kg CO₂/L</code>, diesel ≈ <code>2.7 kg CO₂/L</code>.</li>
+        <li>Annual emissions per vehicle:  
+          <code>CO₂&nbsp;(t/vehicle·year) = d × FC × EF / 1000</code>  
+          where <code>d</code> = annual distance (km/year), <code>FC</code> = fuel consumption (L/100&nbsp;km).</li>
+        <li>City-wide emissions for each category:  
+          <code>CO₂<sub>total</sub> = CO₂<sub>per&nbsp;vehicle</sub> × number&nbsp;of&nbsp;vehicles</code>.</li>
       </ul>
-      <p class="muted">* Replace with a more realistic AQI or concentration-based calculation if available.</p>
+
+      <p class="muted">
+        The tables below show a stylized estimate for Toronto (2024), based on Canadian federal data and 
+        a simple breakdown of gasoline cars, SUVs, sports/2-seaters, diesel vehicles, and motorcycles.
+      </p>
     </div>
   </section>
 
   <!-- 2. Creative Component -->
   <section class="card">
-    <div class="hd"><h2>2. Creative Component</h2></div>
+    <div class="hd">
+      <h2>2. Creative Component</h2>
+      <span class="pill">Data table · CO₂ by vehicle type</span>
+    </div>
     <div class="bd">
-      <p><b>Add your creative component here.</b></p>
-      <p class="muted">For example: a data visualization of measured PM₂.₅ levels along a busy arterial road vs. a transit corridor, or a short video explaining how mode shift improves local air quality.</p>
+      <p><b>2.1 Per-vehicle CO₂ assumptions</b></p>
+      <p class="muted">Default fuel consumption, annual distance and emission factors used to estimate annual CO₂ per vehicle.</p>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Category / 类别</th>
+              <th>Fuel<br>(燃料)</th>
+              <th>FC<br>(L/100&nbsp;km)</th>
+              <th>Annual distance d<br>(km/年)</th>
+              <th>EF<br>(kg&nbsp;CO₂/L)</th>
+              <th>CO₂ per vehicle<br>(t/车·年)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Car 轿车 (gasoline)</td>
+              <td><span class="tag tag-gas">Gasoline</span></td>
+              <td>8.8</td>
+              <td>15,000</td>
+              <td>2.3</td>
+              <td class="highlight-number">3.04</td>
+            </tr>
+            <tr>
+              <td>SUV (gasoline)</td>
+              <td><span class="tag tag-gas">Gasoline</span></td>
+              <td>11.5</td>
+              <td>16,000</td>
+              <td>2.3</td>
+              <td class="highlight-number">4.23</td>
+            </tr>
+            <tr>
+              <td>Sports / 2-seater 跑车/双座 (gasoline)</td>
+              <td><span class="tag tag-gas">Gasoline</span></td>
+              <td>10.5</td>
+              <td>12,000</td>
+              <td>2.3</td>
+              <td class="highlight-number">2.90</td>
+            </tr>
+            <tr>
+              <td>Car 轿车 (diesel)</td>
+              <td><span class="tag tag-diesel">Diesel</span></td>
+              <td>7.0</td>
+              <td>15,000</td>
+              <td>2.7</td>
+              <td class="highlight-number">2.84</td>
+            </tr>
+            <tr>
+              <td>SUV (diesel)</td>
+              <td><span class="tag tag-diesel">Diesel</span></td>
+              <td>9.0</td>
+              <td>16,000</td>
+              <td>2.7</td>
+              <td class="highlight-number">3.89</td>
+            </tr>
+            <tr>
+              <td>Motorcycle 摩托车 (gasoline)</td>
+              <td><span class="tag tag-motor">Gasoline</span></td>
+              <td>5.0</td>
+              <td>4,500</td>
+              <td>2.3</td>
+              <td class="highlight-number">0.52</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note-box">
+        Example: for gasoline cars, 
+        <code>CO₂ = 15,000 × 0.088 × 2.3 / 1000 ≈ 3.04 t/车·年</code>.
+      </div>
+
+      <hr style="border:none;border-top:1px solid var(--border);margin:16px 0">
+
+      <p><b>2.2 Estimated Toronto-wide CO₂ from private vehicles (2024)</b></p>
+      <p class="muted">
+        Combining per-vehicle emissions with an estimate of how many vehicles of each type operate in the Toronto area.
+      </p>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Category / 类别 (Toronto est. 2024)</th>
+              <th>Number of vehicles<br>数量（辆）</th>
+              <th>CO₂ per vehicle<br>(t/车·年)</th>
+              <th>Annual CO₂ total<br>(t/年)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Car 轿车 (gasoline)</td>
+              <td>468,082</td>
+              <td>3.04</td>
+              <td class="highlight-number">1,422,969</td>
+            </tr>
+            <tr>
+              <td>SUV (gasoline)</td>
+              <td>573,107</td>
+              <td>4.23</td>
+              <td class="highlight-number">2,424,243</td>
+            </tr>
+            <tr>
+              <td>Sports / 2-seater 跑车/双座 (gasoline)</td>
+              <td>131,645</td>
+              <td>2.90</td>
+              <td class="highlight-number">381,771</td>
+            </tr>
+            <tr>
+              <td>Car 轿车 (diesel)</td>
+              <td>5,851</td>
+              <td>2.84</td>
+              <td>16,617</td>
+            </tr>
+            <tr>
+              <td>SUV (diesel)</td>
+              <td>5,608</td>
+              <td>3.89</td>
+              <td>21,815</td>
+            </tr>
+            <tr>
+              <td>Motorcycle 摩托车 (gasoline)</td>
+              <td>34,130</td>
+              <td>0.52</td>
+              <td>17,748</td>
+            </tr>
+            <tr>
+              <td><b>Total 合计</b></td>
+              <td><b>1,218,423</b></td>
+              <td>–</td>
+              <td class="highlight-number"><b>4,285,162 t/年 ≈ 4.29 Mt/年</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note-box">
+        This simple model suggests that private cars, SUVs and motorcycles in the Toronto area 
+        emit on the order of <b>4.3 Mt CO₂ per year</b>, before accounting for upstream fuel production 
+        or non-CO₂ pollutants such as NOₓ and PM₂.₅.
+      </div>
     </div>
   </section>
 
@@ -70,8 +362,76 @@
   <section class="card">
     <div class="hd"><h2>3. References</h2></div>
     <div class="bd">
-      <p><b>Add your reference part here.</b></p>
-      <p class="muted">Include sources on emission factors, AQI calculation methods, and health impacts of transport-related pollution.</p>
+      <ol>
+        <li>
+          <p><b>Fuel carbon content & emission factors</b></p>
+          <ul>
+            <li>
+              U.S. Energy Information Administration (EIA). 
+              <a href="https://www.eia.gov/energyexplained/gasoline/octane-in-depth.php" target="_blank">
+                Gasoline explained – Octane in depth.
+              </a>
+            </li>
+            <li>
+              University of Waterloo – Centre for Advanced Science Education.  
+              “Gasoline and diesel fuel carbon pricing and heating values”  
+              <a href="https://uwaterloo.ca/centre-advanced-science-education/news/gasoline-and-diesel-fuel-carbon-pricing-and-heating-values" target="_blank">
+                Article link
+              </a>  
+              (gasoline ≈ 2.3 kg CO₂/L, diesel ≈ 2.7 kg CO₂/L).
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <p><b>Fuel consumption by vehicle class</b></p>
+          <ul>
+            <li>
+              Natural Resources Canada (NRCan).  
+              <a href="https://natural-resources.canada.ca/sites/nrcan/files/files/pdf/2025%20Fuel%20Consumption%20Guide.pdf" target="_blank">
+                Fuel Consumption Guide 2025
+              </a>
+            </li>
+            <li>
+              NRCan – Comprehensive Energy Use Database (transport):  
+              <a href="https://oee.nrcan.gc.ca/corporate/statistics/neud/dpa/showTable.cfm?juris=on&page=0&rn=21&sector=tran&type=CP&year=2022" target="_blank">
+                Ontario – Light-duty vehicle fuel consumption
+              </a><br>
+              <a href="https://oee.nrcan.gc.ca/corporate/statistics/neud/dpa/showTable.cfm?juris=ca&page=0&rn=60&sector=tran&type=CP&year=2021" target="_blank">
+                Canada – Vehicle fuel consumption by class
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <p><b>Annual distance travelled (vehicle-km)</b></p>
+          <ul>
+            <li>
+              NRCan – Household and commercial vehicle activity:  
+              <a href="https://oee.nrcan.gc.ca/corporate/statistics/neud/dpa/showTable.cfm?juris=00&page=0&rn=7&sector=tran&type=HB&wbdisable=true" target="_blank">
+                Average annual kilometres by vehicle type
+              </a><br>
+              <a href="https://oee.rncan-nrcan.gc.ca/corporate/statistics/neud/dpa/showTable.cfm?juris=ca&page=0&rn=50&sector=tran&type=CP&year=2021" target="_blank">
+                Additional national transport statistics
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <p><b>Vehicle fleet composition (Toronto estimate)</b></p>
+          <ul>
+            <li>
+              Statistics Canada – Vehicle registrations by census metropolitan area:  
+              <a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2310030801" target="_blank">
+                Table 23-10-0308-01
+              </a><br>
+              Used to approximate counts of gasoline cars, SUVs, sports/2-seaters, diesel vehicles and motorcycles in Toronto.
+            </li>
+          </ul>
+        </li>
+      </ol>
     </div>
   </section>
 
