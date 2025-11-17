@@ -23,6 +23,24 @@
     .card .bd{padding:14px 16px}
     .muted{color:var(--muted)}
     .footer{text-align:center;color:var(--muted);font-size:12px;margin:24px 0}
+
+    .video-wrapper{
+      position:relative;
+      width:100%;
+      max-width:100%;
+      border-radius:14px;
+      overflow:hidden;
+      margin:12px 0 8px;
+      box-shadow:var(--shadow);
+    }
+    .video-wrapper video{
+      display:block;
+      width:100%;
+      height:auto;
+      outline:none;
+      border:none;
+      background:#000;
+    }
   </style>
 </head>
 <body>
@@ -67,8 +85,21 @@
   <section class="card">
     <div class="hd"><h2>2. Creative Component</h2></div>
     <div class="bd">
-      <p><b>Add your creative component here.</b></p>
-      <p class="muted">For example: a Sankey diagram showing energy flows for a gasoline car vs. an electric bus, or a poster comparing energy losses at each stage of the drivetrain.</p>
+      <p><b>Animated explainer: Combustion engines vs. electric public transit.</b></p>
+
+      <!-- 嵌入本地视频 CIV300.mov（带声音） -->
+      <div class="video-wrapper">
+        <video controls preload="metadata">
+          <!-- 如果这个 HTML 和 CIV300.mov 在同一文件夹，直接这样写即可 -->
+          <source src="CIV300.mov" type="video/quicktime">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <p class="muted">
+        Short animated video illustrating how choosing electric public transit instead of private combustion cars
+        reduces energy waste and CO₂ emissions during daily commuting.
+      </p>
     </div>
   </section>
 
@@ -76,8 +107,110 @@
   <section class="card">
     <div class="hd"><h2>3. References</h2></div>
     <div class="bd">
-      <p><b>Add your reference part here.</b></p>
-      <p class="muted">Include sources on fuel energy content, drivetrain efficiency, and well-to-wheel analyses of different vehicle technologies.</p>
+
+      <ol>
+
+        <!-- 1. Electricity Carbon Intensity in Ontario -->
+        <li>
+          <p><b>Electricity Carbon Intensity in Ontario (kWh → CO₂)</b><br>
+          Ontario’s grid is among the cleanest in North America due to nuclear and hydro.</p>
+
+          <ul>
+            <li>IESO (Independent Electricity System Operator):  
+              <a href="https://www.ieso.ca/Learn/Ontario-Electricity-Grid/Supply-Mix-and-Generation" target="_blank">
+                Ontario 2023 grid intensity ≈ 33 g CO₂/kWh
+              </a>
+            </li>
+            <li>Government of Canada (GHGenius Dataset): ≈ 30–40 g CO₂/kWh</li>
+            <li>Ontario Energy Statistics:  
+              <a href="https://oee.nrcan.gc.ca/corporate/statistics/neud/dpa/menus/trends/comprehensive_tables/list.cfm" target="_blank">
+                NRCan Comprehensive Energy Tables
+              </a>
+            </li>
+          </ul>
+
+          <p class="muted">→ For transit energy → CO₂ calculations, 33 g/kWh is used.</p>
+        </li>
+
+
+        <!-- 2. TTC Streetcar -->
+        <li>
+          <p><b>TTC Streetcar Energy Use (Toronto)</b></p>
+
+          <ul>
+            <li>Typical streetcar energy intensity (North America): ~0.15–0.18 kWh per passenger-km</li>
+            <li>NREL Data:  
+              <a href="https://www.transit.dot.gov/ntd/data-product/energy-consumption" target="_blank">Energy Consumption Dataset</a>
+            </li>
+            <li>Ryerson University LCA Study (“Comparative Life Cycle Assessment of Public Transit Toronto”):  
+              <a href="https://www.proquest.com/openview/037020e249988d2e13d286e12f70a33f/1?pq-origsite=gscholar&cbl=18750" target="_blank">
+                Full Study
+              </a>
+            </li>
+          </ul>
+
+          <p class="muted">
+            Conservative estimate used: 0.17 kWh/p-km →  
+            0.17 × 33 = <b>5.6 g CO₂ per passenger-km</b>.
+          </p>
+        </li>
+
+
+        <!-- 3. TTC Subway -->
+        <li>
+          <p><b>TTC Subway Energy Use</b></p>
+
+          <ul>
+            <li>Electric heavy rail with regenerative braking</li>
+            <li>Typical energy intensity: 0.10–0.14 kWh per passenger-km</li>
+            <li>Government of Canada – Rail Energy Study:  
+              <a href="https://natural-resources.canada.ca/energy-efficiency" target="_blank">
+                Energy Efficiency Resources
+              </a>
+            </li>
+          </ul>
+
+          <p class="muted">
+            Toronto average: 0.12 kWh/p-km →  
+            0.12 × 33 = <b>3.96 g CO₂ per passenger-km</b>.
+          </p>
+        </li>
+
+
+        <!-- 4. TTC Electric / Hybrid Buses -->
+        <li>
+          <p><b>TTC Electric & Hybrid Bus Energy Use</b></p>
+
+          <ul>
+            <li>BYD / Nova electric bus pilot – City of Toronto report:  
+              <a href="https://stevemunro.ca/2022/04/10/ttc-ebus-study-final-results/" target="_blank">
+                Electric Bus Performance Results
+              </a>
+            </li>
+            <li>Energy consumption measured: 0.9–1.2 kWh per vehicle-km</li>
+            <li>Typical occupancy: ~20 passengers/km  
+              (<a href="https://www.ttc.ca/riding-the-ttc/Real-Time-Bus-Occupancy-Info" target="_blank">TTC Occupancy Data</a>)
+            </li>
+          </ul>
+
+          <p class="muted">
+            Per passenger-km: 1.0 ÷ 20 = 0.05 kWh/p-km →  
+            0.05 × 33 = <b>1.65 g CO₂ per passenger-km</b>.
+          </p>
+        </li>
+
+
+        <!-- 5. Bike & Walking -->
+        <li>
+          <p><b>Biking & Walking</b></p>
+          <ul>
+            <li>Human metabolic energy: ≈ 0.03 kWh per km</li>
+            <li>Local operational emissions: <b>0 g CO₂</b></li>
+          </ul>
+        </li>
+
+      </ol>
+
     </div>
   </section>
 
@@ -94,3 +227,4 @@
 </script>
 </body>
 </html>
+
