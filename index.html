@@ -4,6 +4,12 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Sustainable Commuting — Main Page</title>
+
+  <!-- Shared styles you created -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/effects.css">
+  <link rel="stylesheet" href="css/cursor.css">
+
   <style>
     :root{
       --bg:#f6f7f9; --fg:#111; --muted:#666; --card:#fff; --border:#e6e8ee; --accent:#0ea5e9;
@@ -470,5 +476,10 @@
     // Init
     updateUI();
   </script>
+  
+  <!-- Cursor canvas + JS (same pattern as your subpages) -->
+  <canvas id="cursorCanvas"></canvas>
+  <script src="js/spotlight.js" defer></script>
+  <script src="js/cursor.js" defer></script>
 </body>
 </html>

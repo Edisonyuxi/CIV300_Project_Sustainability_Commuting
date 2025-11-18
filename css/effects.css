@@ -1,0 +1,45 @@
+/* ===== Interactive Card & Button Styling ===== */
+
+/* Card hover: lift + glow */
+.card {
+    transition:
+      transform 0.18s ease-out,
+      box-shadow 0.18s ease-out,
+      border-color 0.18s ease-out,
+      background 0.18s ease-out;
+}
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+    border-color: rgba(56, 189, 248, 0.6);
+    background: radial-gradient(
+                  circle at top left,
+                  rgba(56, 189, 248, 0.10),
+                  transparent 55%
+               ) var(--card);
+}
+
+/* Buttons */
+.btn {
+    transition:
+      transform 0.12s ease-out,
+      box-shadow 0.12s ease-out,
+      background 0.12s ease-out,
+      border-color 0.12s ease-out,
+      color 0.12s ease-out;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.25);
+    border-color: rgba(56, 189, 248, 0.75);
+    background: rgba(56, 189, 248, 0.12);
+}
+
+/* Special pop for index primary buttons */
+.btn.primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(56, 189, 248, 0.55);
+    background: linear-gradient(135deg, var(--accent), #22c55e);
+    color: #022c22;
+}

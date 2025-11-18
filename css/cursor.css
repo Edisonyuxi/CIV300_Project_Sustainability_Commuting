@@ -1,0 +1,14 @@
+/* ===== Shooting Star Cursor Canvas ===== */
+
+#cursorCanvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Content always above canvas */
+header, main, footer, dialog, .img-modal {
+    position: relative;
+    z-index: 1;
+}
