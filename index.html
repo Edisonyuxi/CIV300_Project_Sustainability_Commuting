@@ -65,8 +65,6 @@
     .progress{height:10px;background:#e5e7eb;border-radius:999px;overflow:hidden}
     html[data-theme="dark"] .progress{background:#0b1220;border:1px solid var(--border)}
     .progress>span{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#16a34a)}
-    .note{font-size:12px;color:var(--muted)}
-    .footer{text-align:center;color:var(--muted);font-size:12px;margin-top:18px}
     .sep{height:1px;background:var(--border);margin:12px 0}
     dialog{border:1px solid var(--border);border-radius:12px;padding:0;background:var(--card);color:var(--fg);max-width:720px}
     dialog .d-hd{padding:14px 16px;border-bottom:1px solid var(--border)}
@@ -74,13 +72,41 @@
     dialog::backdrop{background:rgba(0,0,0,.25)}
     .pill{border:1px solid var(--border);border-radius:999px;padding:6px 10px}
     .svg-wrap{height:220px;border:1px dashed var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center}
+
     /* tag cards */
     .tag-card .bd{display:flex;flex-direction:column;gap:10px;justify-content:space-between;min-height:130px}
     .tag-label{font-size:12px;color:var(--muted)}
+    /* Dark mode 下卡片副标题变亮一点 */
     html[data-theme="dark"] .tag-label{
-      color:#e5e7eb;
+      color:#f9fafb;
     }
-    .tag-label{font-size:12px;color:var(--muted)}
+
+    /* 整个 commuting 卡片的情绪背景 */
+    #scenarioCard{
+      transition:background .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    #scenarioCard.card-mood-none{
+      background:var(--card);
+      box-shadow:var(--shadow);
+      border-color:var(--border);
+    }
+    #scenarioCard.card-mood-low{
+      background:linear-gradient(135deg, rgba(34,197,94,.12), rgba(59,130,246,.04));
+      box-shadow:0 18px 40px rgba(34,197,94,.25);
+      border-color:rgba(34,197,94,.4);
+    }
+    #scenarioCard.card-mood-mid{
+      background:linear-gradient(135deg, rgba(234,179,8,.20), rgba(244,244,245,1));
+      box-shadow:0 18px 40px rgba(234,179,8,.28);
+      border-color:rgba(234,179,8,.6);
+    }
+    #scenarioCard.card-mood-high{
+      background:linear-gradient(135deg, rgba(248,113,113,.22), rgba(248,250,252,1));
+      box-shadow:0 20px 44px rgba(248,113,113,.35);
+      border-color:rgba(248,113,113,.7);
+    }
+
+    /* Earth mood pill 本身的样式 */
     .earth-face{
       display:flex;align-items:center;gap:8px;
       padding:8px 12px;border-radius:999px;
@@ -134,7 +160,7 @@
 
   <main class="container">
     <!-- Scenario builder + Earth face -->
-    <section class="card">
+    <section class="card card-mood-none" id="scenarioCard">
       <div class="hd"><h3>🚆 Your commuting scenario (interactive)</h3></div>
       <div class="bd">
         <div class="row">
@@ -255,7 +281,7 @@
   </dialog>
 
   <script>
-    // ========== Placeholder emission factors (to be replaced) ==========  (you can still swap these later)
+    // ========== Emission factors (you can still swap these later) ==========
     const EMISSIONS_G_PER_KM = {
       Car: 180,
       Streetcar: 70,
@@ -296,6 +322,9 @@
     const earthEmojiEl = $('#earth-emoji');
     const earthTextEl = $('#earth-text');
     const earthFaceEl = $('#earth-face');
+
+    const scenarioCard = $('#scenarioCard');
+    const CARD_MOOD_CLASSES = ['card-mood-none','card-mood-low','card-mood-mid','card-mood-high'];
 
     // Three-threshold mood ranges (g/day) – adjust as needed
     const HAPPY_MAX = 800;
@@ -367,29 +396,36 @@
     }
 
     function updateEarthFace(co2){
-      let emoji, text, moodClass;
+      let emoji, text, moodClass, cardMoodClass;
 
       if(co2 <= 0){
         emoji = '😄';
         text = 'No commuting yet — Earth is relaxed.';
         moodClass = 'mood-none';
+        cardMoodClass = 'card-mood-none';
       }else if(co2 <= HAPPY_MAX){
         emoji = '🙂';
         text = 'Emissions are relatively low for today — keep it up!';
         moodClass = 'mood-low';
+        cardMoodClass = 'card-mood-low';
       }else if(co2 <= NEUTRAL_MAX){
         emoji = '😐';
         text = 'Emissions are moderate — consider shifting more trips to transit or biking.';
         moodClass = 'mood-mid';
+        cardMoodClass = 'card-mood-mid';
       }else{
         emoji = '😢';
         text = 'High daily emissions — Earth is stressed. Try shorter car trips or public transit.';
         moodClass = 'mood-high';
+        cardMoodClass = 'card-mood-high';
       }
 
       earthEmojiEl.textContent = emoji;
       earthTextEl.textContent = text;
       earthFaceEl.className = 'earth-face ' + moodClass;
+
+      CARD_MOOD_CLASSES.forEach(c => scenarioCard.classList.remove(c));
+      scenarioCard.classList.add(cardMoodClass);
     }
 
     function updateUI(){
