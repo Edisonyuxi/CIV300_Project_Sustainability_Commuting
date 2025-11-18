@@ -29,6 +29,129 @@
     .card .bd{padding:14px 16px}
     .muted{color:var(--muted)}
     .footer{text-align:center;color:var(--muted);font-size:12px;margin:24px 0}
+
+    /* Poster / infographic wrapper */
+    .poster-wrap{
+      margin:8px 0 6px;
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      background:var(--card);
+      cursor:zoom-in;
+      transition:transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .poster-wrap:hover{
+      transform:translateY(-2px);
+      box-shadow:0 18px 40px rgba(0,0,0,.16);
+    }
+    .poster-wrap img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+
+    /* Fullscreen image modal */
+    .img-modal{
+      position:fixed;
+      inset:0;
+      background:rgba(15,23,42,0.9);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
+      padding:24px;
+    }
+    .img-modal.open{
+      display:flex;
+    }
+    .img-modal-content{
+      position:relative;
+      max-width:100%;
+      max-height:100%;
+      overflow:auto; /* scroll when zoomed in */
+      background:transparent;
+    }
+    .img-modal-content img{
+      display:block;
+      width:100%;      /* base size = fit width */
+      height:auto;
+      border-radius:12px;
+      background:#fff;
+      /* no max-height / transform here so scroll area matches zoom */
+    }
+    .img-modal-close{
+      position:absolute;
+      top:-40px;
+      right:0;
+      font-size:26px;
+      cursor:pointer;
+      color:#e5e7eb;
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(15,23,42,0.8);
+      border:1px solid rgba(148,163,184,0.6);
+      line-height:1;
+    }
+    .img-modal-close:hover{
+      background:rgba(30,64,175,0.9);
+    }
+
+    /* Zoom controls */
+    .img-modal-toolbar{
+      position:absolute;
+      bottom:12px;
+      right:12px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      background:rgba(15,23,42,0.80);
+      border-radius:999px;
+      padding:6px 10px;
+      border:1px solid rgba(148,163,184,0.6);
+      color:#e5e7eb;
+      font-size:13px;
+      z-index:10000;
+    }
+    .zoom-btn{
+      border:none;
+      padding:3px 8px;
+      border-radius:999px;
+      background:rgba(30,64,175,0.9);
+      color:#e5e7eb;
+      font-size:13px;
+      cursor:pointer;
+      line-height:1;
+    }
+    .zoom-btn:disabled{
+      opacity:0.5;
+      cursor:default;
+    }
+    .zoom-label{
+      min-width:40px;
+      text-align:center;
+      font-size:11px;
+    }
+
+    .img-modal-caption{
+      margin-top:10px;
+      font-size:13px;
+      color:#cbd5f5;
+      text-align:center;
+    }
+
+    @media (max-width:600px){
+      .img-modal{
+        padding:12px;
+      }
+      .img-modal-close{
+        top:-32px;
+        font-size:22px;
+      }
+      .img-modal-toolbar{
+        font-size:11px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -50,30 +173,35 @@
   <section class="card">
     <div class="hd"><h2>1. Information</h2></div>
     <div class="bd">
-      <p>Urban heat island (UHI) describes the tendency for built-up areas to be warmer than surrounding rural regions. Paved roads, rooftops, and parking lots often have <b>low albedo</b> and high heat capacity, so they absorb and store more solar energy during the day and release it as sensible heat at night.</p>
-      <p>In this project, we focus on how transportation infrastructure (roads, parking, transit corridors) changes the local surface energy balance and affects UHI intensity.</p>
-      <p><b>Example simplified relationships (placeholders):</b></p>
-      <ul>
-        <li>UHI temperature difference:  
-          <code>ΔT<sub>UHI</sub> ≈ 0.02 × Paved% − 0.015 × TreeCanopy%</code></li>
-        <li>Albedo indicator (0–1, higher = more reflective):  
-          <code>α ≈ (100 − Paved% + TreeCanopy%) / 200</code></li>
-        <li>Conceptual link: lower albedo → more net radiation absorbed → higher sensible heat flux and air temperature.</li>
-      </ul>
-      <p class="muted">* Replace these placeholder formulas with course-approved relationships or values from literature.</p>
+      <p>Ever notice how downtown Toronto feels like an oven on a summer day, way hotter than a park or the countryside? That's the <b>Urban Heat Island (UHI) effect</b>, and our transportation choices are a major cause. It all comes down to a concept called albedo: the measure of how much sunlight a surface reflects.</p>
+      <p>Think of wearing a black t-shirt on a sunny day; it absorbs heat and makes you feel hotter. Our cities are covered in the equivalent of a black t-shirt: dark asphalt roads and parking lots. These surfaces have low albedo, so they soak up the sun's energy all day and radiate it back as heat long into the night.</p>
+      <p>Lighter, natural surfaces reflect more sunlight. Our city's reliance on cars demands vast areas of heat-absorbing pavement, which, combined with the waste heat from car engines, literally bakes our neighbourhood. Choosing transit, walking, or biking helps reduce the need for all that blacktop, making space for cooler, greener surfaces.</p>
     </div>
   </section>
 
-  <!-- 2. Creative Component placeholder -->
+  <!-- 2. Creative Component -->
   <section class="card">
     <div class="hd"><h2>2. Creative Component</h2></div>
     <div class="bd">
-      <p><b>Add your creative component here.</b></p>
-      <p class="muted">For example: infographic/poster comparing UHI in car-oriented vs transit-oriented corridors, or a short video explaining how albedo and tree canopy modify local temperature.</p>
+      <p><b>Infographic: How commuting choices shape the Urban Heat Island</b></p>
+
+      <div class="poster-wrap" id="posterTrigger">
+        <!-- Make sure this SVG file sits in the same folder as uhi.html -->
+        <img
+          src="CIV300 - PAS3 - Infographics.svg"
+          alt="Urban Heat Island infographic linking commuting patterns, albedo, and surface temperature in Toronto"
+        >
+      </div>
+
+      <p class="muted">
+        This poster visualizes how low-albedo asphalt, parked cars, and waste heat from engines
+        trap solar energy in car-oriented streets, compared to cooler, transit-oriented corridors
+        with less pavement and more green space.
+      </p>
     </div>
   </section>
 
-  <!-- 3. References placeholder -->
+  <!-- 3. References -->
   <section class="card">
     <div class="hd"><h2>3. References</h2></div>
     <div class="bd">
@@ -85,13 +213,99 @@
   <div class="footer">Urban Heat Island · CIV300 Project</div>
 </main>
 
+<!-- Image Modal (click-to-enlarge) -->
+<div class="img-modal" id="imgModal">
+  <div class="img-modal-content" id="imgModalContent">
+    <div class="img-modal-toolbar">
+      <button type="button" class="zoom-btn" id="zoomOutBtn">−</button>
+      <span class="zoom-label" id="zoomLabel">100%</span>
+      <button type="button" class="zoom-btn" id="zoomInBtn">+</button>
+    </div>
+    <span class="img-modal-close" id="imgModalClose">✕</span>
+    <img id="imgModalImg" src="" alt="Enlarged Urban Heat Island infographic">
+    <div class="img-modal-caption">
+      Use + / − to zoom. Scroll to pan. Click outside the image or press <b>Esc</b> to close.
+    </div>
+  </div>
+</div>
+
 <script>
+  // Theme toggle
   const themeBtn = document.getElementById('themeBtn');
-  themeBtn.addEventListener('click', ()=>{
-    const next = document.documentElement.getAttribute('data-theme')==='light' ? 'dark' : 'light';
+  themeBtn.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', next);
-    themeBtn.textContent = next==='light' ? 'Dark' : 'Light';
+    themeBtn.textContent = next === 'light' ? 'Dark' : 'Light';
   });
+
+  // Click-to-enlarge infographic + zoom controls
+  const posterTrigger = document.getElementById('posterTrigger');
+  const modal = document.getElementById('imgModal');
+  const modalContent = document.getElementById('imgModalContent');
+  const modalImg = document.getElementById('imgModalImg');
+  const modalClose = document.getElementById('imgModalClose');
+  const zoomInBtn = document.getElementById('zoomInBtn');
+  const zoomOutBtn = document.getElementById('zoomOutBtn');
+  const zoomLabel = document.getElementById('zoomLabel');
+
+  let currentScale = 1;
+  const MIN_SCALE = 0.5;
+  const MAX_SCALE = 4;
+  const STEP = 0.25;
+
+  function applyScale() {
+    modalImg.style.width = (currentScale * 100) + '%';
+    zoomLabel.textContent = Math.round(currentScale * 100) + '%';
+    zoomOutBtn.disabled = currentScale <= MIN_SCALE + 0.01;
+    zoomInBtn.disabled  = currentScale >= MAX_SCALE - 0.01;
+  }
+
+  if (posterTrigger && modal && modalImg && modalClose) {
+    const posterImg = posterTrigger.querySelector('img');
+
+    const openModal = () => {
+      if (!posterImg) return;
+      modalImg.src = posterImg.src;
+      // reset zoom and scroll each time open
+      currentScale = 1;
+      applyScale();
+      modalContent.scrollTop = 0;
+      modalContent.scrollLeft = 0;
+      modal.classList.add('open');
+    };
+
+    const closeModal = () => {
+      modal.classList.remove('open');
+    };
+
+    posterTrigger.addEventListener('click', openModal);
+    modalClose.addEventListener('click', closeModal);
+
+    // Close when clicking on the dark overlay (but not when clicking inside content)
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Close on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) {
+        closeModal();
+      }
+    });
+
+    // Zoom button handlers
+    zoomInBtn.addEventListener('click', () => {
+      currentScale = Math.min(MAX_SCALE, currentScale + STEP);
+      applyScale();
+    });
+
+    zoomOutBtn.addEventListener('click', () => {
+      currentScale = Math.max(MIN_SCALE, currentScale - STEP);
+      applyScale();
+    });
+  }
 </script>
 </body>
 </html>
