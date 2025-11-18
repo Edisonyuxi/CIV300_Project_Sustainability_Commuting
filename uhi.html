@@ -78,7 +78,6 @@
       height:auto;
       border-radius:12px;
       background:#fff;
-      /* no max-height / transform here so scroll area matches zoom */
     }
     .img-modal-close{
       position:absolute;
@@ -194,9 +193,17 @@
       </div>
 
       <p class="muted">
-        This poster visualizes how low-albedo asphalt, parked cars, and waste heat from engines
-        trap solar energy in car-oriented streets, compared to cooler, transit-oriented corridors
-        with less pavement and more green space.
+        The infographic is divided into three simple parts so that anyone can quickly see what the Urban Heat Island effect means for Toronto and how our daily travel choices matter.
+      </p>
+
+      <ul class="muted">
+        <li><b>Left – Toronto heat map:</b> The red map shows how surface temperatures across Toronto are not the same. Car-heavy corridors with lots of dark asphalt and roofs are several degrees hotter than greener neighbourhoods, because these dark surfaces absorb and store more solar energy during the day before releasing it as heat at night [J1], [J2].</li>
+        <li><b>Middle – How the Urban Heat Island builds up:</b> The centre panels walk through the basic UHI story: low-albedo asphalt and roofs soak up sunlight, surfaces heat up to high temperatures, very little light is reflected back, and the stored heat is slowly released into the air. Waste heat from engines and traffic adds an extra “artificial sun,” making busy streets even warmer [J1], [J4], [J5].</li>
+        <li><b>Right – Why sustainable commuting helps:</b> The right-hand side compares a car-dominated street with a transit-and-bike-friendly corridor. When more people ride transit, walk, or bike, cities can use less space for parking and roads, plant more trees, and use lighter, more reflective materials. That means cooler streets, less air-conditioning demand, and more comfortable summer days in the city [J4], [J5].</li>
+      </ul>
+
+      <p class="muted">
+        The poster was composed on a digital canvas with the help of Dreamifly AI to draw the illustration at the upper right corner of the poster [J3].
       </p>
     </div>
   </section>
@@ -205,8 +212,90 @@
   <section class="card">
     <div class="hd"><h2>3. References</h2></div>
     <div class="bd">
-      <p><b>Add your reference part here.</b></p>
-      <p class="muted">List key sources on UHI, albedo, and transportation infrastructure (10–15 credible references overall across the project, using IEEE or Chicago format).</p>
+      <ol>
+
+        <!-- J1: Main UHI + asphalt properties -->
+        <li>
+          <p><b>[J1] Urban heat island and asphalt thermal properties</b></p>
+          <p class="muted">
+            This paper explains how dark asphalt concrete contributes to the Urban Heat Island effect through low albedo and high heat storage, and discusses mitigation strategies such as reflective or “cool” pavements.
+          </p>
+          <ul class="muted">
+            <li>
+              A. Mohajerani et al., “The urban heat island effect, its causes, and mitigation, with reference to the thermal properties of asphalt concrete,” <i>Environmental Pollution</i>, 2017.  
+              Link (ResearchGate):  
+              <a href="https://www.researchgate.net/publication/316118695_The_urban_heat_island_effect_its_causes_and_mitigation_with_reference_to_the_thermal_properties_of_asphalt_concrete" target="_blank">
+                Research article page
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- J2: Same source, used repeatedly while designing -->
+        <li>
+          <p><b>[J2] Working copy of the same UHI–asphalt study</b></p>
+          <p class="muted">
+            A second copy of the same study was used as a working reference while drafting the infographic text and checking that the described processes match the scientific explanation.
+          </p>
+          <ul class="muted">
+            <li>
+              Same link as [J1]:  
+              <a href="https://www.researchgate.net/publication/316118695_The_urban_heat_island_effect_its_causes_and_mitigation_with_reference_to_the_thermal_properties_of_asphalt_concrete" target="_blank">
+                Research article page
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- J3: Dreamifly tool -->
+        <li>
+          <p><b>[J3] Dreamifly – digital canvas and AI art tool</b></p>
+          <p class="muted">
+            Dreamifly was used as the digital canvas to arrange the illustration, colour palette, and icons in the poster. The sustainability ideas, words, and layout logic were created by our CIV300 team.
+          </p>
+          <ul class="muted">
+            <li>
+              Dreamifly, “Dreamifly – Free AI Art Generator Online,” accessed Nov. 2025.  
+              <a href="https://dreamifly.com/en" target="_blank">https://dreamifly.com/en</a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- J4: Pavement albedo & thermal inertia -->
+        <li>
+          <p><b>[J4] Pavement albedo, thermal inertia, and surface temperature</b></p>
+          <p class="muted">
+            This work looks at how changing pavement albedo (how bright the surface is) and thermal inertia affects surface temperature under the same amount of sunlight. It supports the idea in the middle of the poster that lighter, more reflective surfaces can stay noticeably cooler than dark asphalt.
+          </p>
+          <ul class="muted">
+            <li>
+              T. Acharya et al., “Effects of albedo and thermal inertia on pavement surface temperatures,” <i>Processes</i>, vol. 9, no. 11, 2021.  
+              Link (MDPI):  
+              <a href="https://www.mdpi.com/2227-9717/9/11/2078" target="_blank">
+                https://www.mdpi.com/2227-9717/9/11/2078
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- J5: Review of cool pavements and mitigation -->
+        <li>
+          <p><b>[J5] Cool pavements and UHI mitigation strategies</b></p>
+          <p class="muted">
+            A review paper that summarizes different “cool pavement” technologies and how they can help reduce Urban Heat Island intensity, including reflective coatings, permeable pavements, and increased greenery. This supports the right-hand side of the poster, where transit-oriented streets free up space for trees and cooler materials.
+          </p>
+          <ul class="muted">
+            <li>
+              M. Santamouris, “Using cool pavements as a mitigation strategy to fight urban heat island – A review of the actual developments,” <i>Renewable and Sustainable Energy Reviews</i>, vol. 26, pp. 224–240, 2013.  
+              Link (ScienceDirect):  
+              <a href="https://www.sciencedirect.com/science/article/abs/pii/S136403211300350X" target="_blank">
+                https://www.sciencedirect.com/science/article/abs/pii/S136403211300350X
+              </a>
+            </li>
+          </ul>
+        </li>
+
+      </ol>
     </div>
   </section>
 
