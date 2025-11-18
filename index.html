@@ -77,12 +77,42 @@
     /* tag cards */
     .tag-card .bd{display:flex;flex-direction:column;gap:10px;justify-content:space-between;min-height:130px}
     .tag-label{font-size:12px;color:var(--muted)}
+    html[data-theme="dark"] .tag-label{
+      color:#e5e7eb;
+    }
+    .tag-label{font-size:12px;color:var(--muted)}
     .earth-face{
       display:flex;align-items:center;gap:8px;
       padding:8px 12px;border-radius:999px;
-      background:rgba(22,163,74,.06);
-      border:1px solid rgba(22,163,74,.25);
       font-size:18px;
+      transition:background .25s ease,border-color .25s ease,
+                 box-shadow .25s ease,transform .15s ease;
+    }
+    .earth-face .earth-text{
+      font-size:12px;
+    }
+    .earth-face.mood-none{
+      background:rgba(59,130,246,.10);
+      border:1px solid rgba(59,130,246,.45);
+      box-shadow:0 0 0 0 rgba(59,130,246,0.0);
+    }
+    .earth-face.mood-low{
+      background:rgba(34,197,94,.18);
+      border:1px solid rgba(34,197,94,.65);
+      box-shadow:0 8px 18px rgba(22,163,74,.35);
+      transform:scale(1.01);
+    }
+    .earth-face.mood-mid{
+      background:rgba(234,179,8,.20);
+      border:1px solid rgba(234,179,8,.7);
+      box-shadow:0 8px 18px rgba(234,179,8,.40);
+      transform:scale(1.01);
+    }
+    .earth-face.mood-high{
+      background:rgba(248,113,113,.22);
+      border:1px solid rgba(248,113,113,.75);
+      box-shadow:0 8px 18px rgba(248,113,113,.45);
+      transform:scale(1.02);
     }
     .earth-text{font-size:12px;color:var(--muted)}
   </style>
@@ -158,14 +188,12 @@
           </div>
           <div class="metric">
             <span class="lab">Earth mood</span>
-            <div class="earth-face" id="earth-face">
+            <div class="earth-face mood-none" id="earth-face">
               <span id="earth-emoji">😄</span>
               <span class="earth-text" id="earth-text">No commuting yet — Earth is relaxed.</span>
             </div>
           </div>
         </div>
-
-        <p class="note">* Placeholder: please replace the constant <code>EMISSIONS_G_PER_KM</code> with course data.</p>
 
         <div class="bd">
           <h4 style="margin:8px 0 4px">Unit emissions of each mode (g CO₂ / km, illustrative)</h4>
@@ -205,25 +233,21 @@
       <div class="card tag-card">
         <div class="hd"><h3>Combustion & Energy Efficiency</h3></div>
         <div class="bd">
-          <p class="tag-label">How fuel combustion and drivetrain efficiency affect energy use.</p>
+          <p class="tag-label">From chemical energy in fuel to mechanical work in different drivetrains.</p>
           <a href="energy_efficiency.html" class="btn primary">Open Energy Efficiency</a>
         </div>
       </div>
     </section>
-
-    <div class="footer">Main Page · Replace placeholder numbers with course data · Deployed on GitHub Pages</div>
   </main>
 
   <!-- Info dialog -->
   <dialog id="aboutDialog">
-    <div class="d-hd"><b>Project notes (Main Page placeholder)</b></div>
+    <div class="d-hd"><b>Add team information</b></div>
     <div class="d-bd">
-      <p>This page shows the commuting scenario and four concept entries. Please complete details (information / creative component / references) in each concept subpage.</p>
-      <ul class="list">
-        <li>Replace <code>EMISSIONS_G_PER_KM</code> with real emission factors from course data or literature.</li>
-        <li>Add concept explanations, creative components, and references in the four subpages.</li>
-        <li>Keep the narrative consistent with the written Part B report.</li>
-      </ul>
+      <p>
+        Please add your team name, member names and student numbers, course code, and instructor here.
+        You can also briefly describe the purpose of this website.
+      </p>
       <div style="text-align:right;margin-top:10px">
         <button class="btn" id="aboutClose">Close</button>
       </div>
@@ -231,7 +255,7 @@
   </dialog>
 
   <script>
-    // ========== Placeholder emission factors (to be replaced) ==========
+    // ========== Placeholder emission factors (to be replaced) ==========  (you can still swap these later)
     const EMISSIONS_G_PER_KM = {
       Car: 180,
       Streetcar: 70,
@@ -291,10 +315,12 @@
       const scale = v => (H - pad*1.6) * (v/maxVal);
 
       barSvg.innerHTML = '';
+      const fg = getComputedStyle(document.body).color;
+
       const axis = document.createElementNS('http://www.w3.org/2000/svg','line');
       axis.setAttribute('x1', pad); axis.setAttribute('y1', H-pad);
       axis.setAttribute('x2', W-pad); axis.setAttribute('y2', H-pad);
-      axis.setAttribute('stroke', getComputedStyle(document.body).color);
+      axis.setAttribute('stroke', fg);
       axis.setAttribute('stroke-width','1');
       barSvg.appendChild(axis);
 
@@ -307,18 +333,21 @@
         rect.setAttribute('x', x); rect.setAttribute('y', y);
         rect.setAttribute('width', barW); rect.setAttribute('height', h);
         rect.setAttribute('rx','6'); rect.setAttribute('ry','6');
-        rect.setAttribute('fill', 'currentColor'); rect.setAttribute('opacity','0.8');
+        rect.setAttribute('fill', 'currentColor');
+        rect.setAttribute('opacity','0.8');
         barSvg.appendChild(rect);
 
         const lab = document.createElementNS('http://www.w3.org/2000/svg','text');
         lab.setAttribute('x', x + barW/2); lab.setAttribute('y', H - pad + 16);
         lab.setAttribute('text-anchor','middle'); lab.setAttribute('font-size','12');
+        lab.setAttribute('fill', fg);
         lab.textContent = d.name;
         barSvg.appendChild(lab);
 
         const val = document.createElementNS('http://www.w3.org/2000/svg','text');
         val.setAttribute('x', x + barW/2); val.setAttribute('y', y - 6);
         val.setAttribute('text-anchor','middle'); val.setAttribute('font-size','11');
+        val.setAttribute('fill', fg);
         val.textContent = d.val;
         barSvg.appendChild(val);
       });
@@ -338,28 +367,29 @@
     }
 
     function updateEarthFace(co2){
-      let emoji, text, bg, border;
+      let emoji, text, moodClass;
+
       if(co2 <= 0){
         emoji = '😄';
         text = 'No commuting yet — Earth is relaxed.';
-        bg = 'rgba(22,163,74,.06)'; border='rgba(22,163,74,.25)';
+        moodClass = 'mood-none';
       }else if(co2 <= HAPPY_MAX){
         emoji = '🙂';
         text = 'Emissions are relatively low for today — keep it up!';
-        bg = 'rgba(34,197,94,.08)'; border='rgba(34,197,94,.4)';
+        moodClass = 'mood-low';
       }else if(co2 <= NEUTRAL_MAX){
         emoji = '😐';
         text = 'Emissions are moderate — consider shifting more trips to transit or biking.';
-        bg = 'rgba(234,179,8,.14)'; border='rgba(234,179,8,.5)';
+        moodClass = 'mood-mid';
       }else{
         emoji = '😢';
         text = 'High daily emissions — Earth is stressed. Try shorter car trips or public transit.';
-        bg = 'rgba(248,113,113,.16)'; border='rgba(248,113,113,.6)';
+        moodClass = 'mood-high';
       }
+
       earthEmojiEl.textContent = emoji;
       earthTextEl.textContent = text;
-      earthFaceEl.style.background = bg;
-      earthFaceEl.style.borderColor = border;
+      earthFaceEl.className = 'earth-face ' + moodClass;
     }
 
     function updateUI(){
