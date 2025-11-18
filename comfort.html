@@ -1,101 +1,441 @@
 <!doctype html>
 <html lang="en" data-theme="light">
 <head>
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/effects.css">
-  <link rel="stylesheet" href="css/cursor.css">
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Human Comfort — Sustainable Commuting</title>
-  <style>
-    :root{--bg:#f6f7f9;--fg:#111;--muted:#666;--card:#fff;--border:#e6e8ee;--accent:#0ea5e9;--shadow:0 10px 24px rgba(0,0,0,.06);}
-    html[data-theme="dark"]{--bg:#0b1220;--fg:#e5e7eb;--muted:#94a3b8;--card:#0f172a;--border:#1f2937;--accent:#7dd3fc;--shadow:0 10px 24px rgba(0,0,0,.4);}
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial}
-    a{color:var(--accent);text-decoration:none}
-    .container{max-width:900px;margin:0 auto;padding:0 16px}
-    header{border-bottom:1px solid var(--border);background:linear-gradient(90deg, rgba(56,189,248,.12), rgba(129,140,248,.12));}
-    .head{display:flex;justify-content:space-between;align-items:center;padding:16px 0;gap:12px}
-    .title h1{margin:0;font-size:20px}
-    .title p{margin:2px 0 0;font-size:12px;color:var(--muted)}
-    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;font-size:13px}
-    .btn:hover{background:rgba(0,0,0,.04)}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);margin-top:16px}
-    .card .hd{padding:14px 16px;border-bottom:1px solid var(--border)}
-    .card .hd h2{margin:0;font-size:17px}
-    .card .bd{padding:14px 16px}
-    .muted{color:var(--muted)}
-    .footer{text-align:center;color:var(--muted);font-size:12px;margin:24px 0}
-  </style>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/effects.css">
+    <link rel="stylesheet" href="css/cursor.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Human Comfort — Sustainable Commuting</title>
+
+    <style>
+        :root {
+            --bg: #f6f7f9;
+            --fg: #111;
+            --muted: #666;
+            --card: #fff;
+            --border: #e6e8ee;
+            --accent: #0ea5e9;
+            --shadow: 0 10px 24px rgba(0,0,0,.06);
+        }
+
+        html[data-theme="dark"] {
+            --bg: #0b1220;
+            --fg: #e5e7eb;
+            --muted: #94a3b8;
+            --card: #0f172a;
+            --border: #1f2937;
+            --accent: #7dd3fc;
+            --shadow: 0 10px 24px rgba(0,0,0,.4);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--fg);
+            font-family: system-ui,-apple-system,"Segoe UI",Roboto,Arial
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 16px
+        }
+
+        header {
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(90deg, rgba(16,185,129,.10), rgba(14,165,233,.10));
+        }
+
+        .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            gap: 12px
+        }
+
+        .title h1 {
+            margin: 0;
+            font-size: 20px
+        }
+
+        .title p {
+            margin: 2px 0 0;
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--fg);
+            cursor: pointer;
+            font-size: 13px
+        }
+
+            .btn:hover {
+                background: rgba(0,0,0,.04)
+            }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            margin-top: 16px
+        }
+
+            .card .hd {
+                padding: 14px 16px;
+                border-bottom: 1px solid var(--border)
+            }
+
+                .card .hd h2 {
+                    margin: 0;
+                    font-size: 17px
+                }
+
+            .card .bd {
+                padding: 14px 16px
+            }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+            margin: 24px 0
+        }
+
+        /* Image wrapper for click-to-zoom */
+        .poster-wrap {
+            margin: 12px 0;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            background: var(--card);
+            cursor: zoom-in;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+            .poster-wrap:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 18px 40px rgba(0,0,0,.16);
+            }
+
+            .poster-wrap img {
+                display: block;
+                width: 100%; /* 自动缩放 */
+                max-width: 500px; /* ← 控制最大宽度（你可以改成 600 / 650 / 750 都行） */
+                margin: 0 auto; /* 居中 */
+                height: auto;
+            }
+
+        /* Fullscreen image modal */
+        .img-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 24px;
+        }
+
+            .img-modal.open {
+                display: flex;
+            }
+
+        .img-modal-content {
+            position: relative;
+            max-width: 100%;
+            max-height: 100%;
+            overflow: auto;
+        }
+
+            .img-modal-content img {
+                width: 100%;
+                height: auto;
+                border-radius: 12px;
+                background: #fff;
+            }
+
+        .img-modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            font-size: 26px;
+            cursor: pointer;
+            color: #e5e7eb;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(15,23,42,0.8);
+            border: 1px solid rgba(148,163,184,0.6);
+        }
+
+        .img-modal-toolbar {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            display: flex;
+            gap: 6px;
+            background: rgba(15,23,42,0.80);
+            border-radius: 999px;
+            padding: 6px 10px;
+            border: 1px solid rgba(148,163,184,0.6);
+            color: #e5e7eb;
+            font-size: 13px;
+        }
+
+        .zoom-btn {
+            padding: 3px 8px;
+            border: none;
+            border-radius: 999px;
+            background: rgba(30,64,175,0.9);
+            color: #fff;
+            cursor: pointer;
+        }
+
+            .zoom-btn:disabled {
+                opacity: 0.5;
+            }
+
+        .zoom-label {
+            min-width: 40px;
+            text-align: center;
+            font-size: 11px;
+        }
+    </style>
 </head>
+
 <body>
-<header>
-  <div class="container head">
-    <div class="title">
-      <h1>Human Comfort</h1>
-      <p>Thermal comfort under different weather and commuting conditions.</p>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn" id="themeBtn">Dark</button>
-      <a class="btn" href="index.html">← Back to Main Page</a>
-    </div>
-  </div>
-</header>
+    <header>
+        <div class="container head">
+            <div class="title">
+                <h1>Human Comfort</h1>
+                <p>Temperature · Wind · Humidity · Transit vs Car · Exposure</p>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <button class="btn" id="themeBtn">Dark</button>
+                <a class="btn" href="index.html">← Back</a>
+            </div>
+        </div>
+    </header>
 
-<main class="container">
-  <!-- 1. Information -->
-  <section class="card">
-    <div class="hd"><h2>1. Information</h2></div>
-    <div class="bd">
-      <p>Human thermal comfort depends on a combination of <b>air temperature</b>, <b>humidity</b>, <b>wind speed</b>, radiation, clothing and activity level. In urban streets and transit corridors, heat exposure can be amplified by the urban heat island effect.</p>
-      <p>Common metrics used in this course include the heat index or the Universal Thermal Climate Index (UTCI), which combine meteorological variables into a single “feels-like” temperature.</p>
-      <p><b>Example simplified relationship (placeholder):</b></p>
-      <ul>
-        <li>Apparent temperature used in the main page:  
-          <code>T<sub>app</sub> ≈ T + f(RH) − g(Wind) + ΔT<sub>UHI</sub></code>  
-          where:
-          <ul>
-            <li><code>T</code> = air temperature (°C)</li>
-            <li><code>RH</code> = relative humidity (%)</li>
-            <li><code>Wind</code> = wind speed (m/s)</li>
-            <li><code>ΔT<sub>UHI</sub></code> = urban heat island temperature increase</li>
-          </ul>
-        </li>
-      </ul>
-      <p class="muted">* Replace with the specific index or formula chosen by your group (e.g., official heat index equation, UTCI table).</p>
-    </div>
-  </section>
+    <main class="container">
+        <main class="container">
+            <!-- 1. Information -->
+            <section class="card">
+                <div class="hd"><h2>1. Information</h2></div>
+                <div class="bd">
+                    <p>Human thermal comfort depends on a combination of <b>air temperature</b>, <b>humidity</b>, <b>wind speed</b>, radiation, clothing and activity level. In urban streets and transit corridors, heat exposure can be amplified by the urban heat island effect.</p>
+                    <p>Common metrics used in this course include the heat index or the Universal Thermal Climate Index (UTCI), which combine meteorological variables into a single “feels-like” temperature.</p>
+                    <p><b>Example simplified relationship (placeholder):</b></p>
+                    <ul>
+                        <li>
+                            Apparent temperature used in the main page:
+                            <code>T<sub>app</sub> ≈ T + f(RH) − g(Wind) + ΔT<sub>UHI</sub></code>
+                            where:
+                            <ul>
+                                <li><code>T</code> = air temperature (°C)</li>
+                                <li><code>RH</code> = relative humidity (%)</li>
+                                <li><code>Wind</code> = wind speed (m/s)</li>
+                                <li><code>ΔT<sub>UHI</sub></code> = urban heat island temperature increase</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p class="muted">* Replace with the specific index or formula chosen by your group (e.g., official heat index equation, UTCI table).</p>
+                </div>
+            </section>
 
-  <!-- 2. Creative Component -->
-  <section class="card">
-    <div class="hd"><h2>2. Creative Component</h2></div>
-    <div class="bd">
-      <p><b>Add your creative component here.</b></p>
-      <p class="muted">For example: a poster comparing comfort levels on a shaded bike lane vs. an asphalt parking lot, or a short video explaining how humidity and wind change “feels-like” temperature for commuters.</p>
-    </div>
-  </section>
+            <!-- 2. Creative Component -->
+            <section class="card">
+                <div class="hd"><h2>2. Creative Component</h2></div>
+                <div class="bd">
 
-  <!-- 3. References -->
-  <section class="card">
-    <div class="hd"><h2>3. References</h2></div>
-    <div class="bd">
-      <p><b>Add your reference part here.</b></p>
-      <p class="muted">Include key studies on thermal comfort indices, heat-health impacts, and urban microclimate around transit corridors.</p>
-    </div>
-  </section>
+                    <p><b>Infographic: Same Toronto Day, Different Commute</b></p>
 
-  <div class="footer">Human Comfort · CIV300 Project</div>
-</main>
+                    <!-- CLICKABLE IMAGE -->
+                    <div class="poster-wrap" id="posterTrigger">
+                        <img src="Human_Comfort.jpg"
+                             alt="Same Toronto Day, Different Commute infographic">
+                    </div>
 
-<script>
-  const themeBtn = document.getElementById('themeBtn');
-  themeBtn.addEventListener('click', ()=>{
-    const next = document.documentElement.getAttribute('data-theme')==='light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', next);
-    themeBtn.textContent = next==='light' ? 'Dark' : 'Light';
-  });
-</script>
-<canvas id="cursorCanvas"></canvas>
-<script src="js/cursor.js" defer></script>
+                    <p class="muted">
+                        This infographic compares comfort across four commute types—car, bus stop, subway, and bike—under the exact same Toronto weather conditions.
+                    </p>
+
+                    <ul class="muted">
+                        <li><b>Car:</b> Temperature stable due to AC, but air quality drops quickly in congestion.[H2]</li>
+                        <li><b>Bus Stop:</b> Full exposure to sun, humidity, wind; comfort varies widely.[H1]</li>
+                        <li><b>Subway:</b> Stable, protected, air-conditioned environment.[H2]</li>
+                        <li><b>Bike:</b> Best air quality and freedom of movement, but requires physical effort.[H2]</li>
+                    </ul>
+
+                    <p class="muted">
+                        Different commuting modes affect how hot or cold we feel even under the same outdoor temperature, because comfort depends on more than just the air temperature. Exposure to sunlight, humidity, wind, surrounding surfaces, traffic heat, and physical effort shapes the “feels-like” experience during travel.
+                    </p>
+
+                    <p class="muted">
+                        The illustration was generated using an AI image tool and arranged manually for layout [H3].
+                    </p>
+                </div>
+            </section>
+
+            <!-- 3. References -->
+            <section class="card">
+                <div class="hd"><h2>3. References</h2></div>
+                <div class="bd">
+                    <ol>
+
+                        <!-- J1: Main UHI + asphalt properties -->
+                        <li>
+                            <p><b>[H1] Human comfort factors: temperature, humidity, wind, and activitys</b></p>
+                            <p class="muted">
+                                A general explanation of how meteorological variables combine to affect perceived temperature and comfort in urban settings
+                            </p>
+                            <ul class="muted">
+                                <li>
+                                    Canadian Centre for Occupational Health and Safety (CCOHS), “Thermal Comfort,” accessed Nov. 2025.
+                                    <a href="https://www.ccohs.ca/oshanswers/phys_agents/thermal_comfort.html" target="_blank">
+                                        Thermal Comfort
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <p><b>[H2] Transit, cycling, and exposure in cities</b></p>
+                            <p class="muted">
+                                Summary of common exposure differences across transport modes — e.g., sun, wind, shading, and heat from surrounding urban environments.
+                            </p>
+                            <ul class="muted">
+                                <li>
+                                    S. K. Parker et al., “Weather exposure across active and public transport modes,” Transportation Research Part D, 2019.
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <p><b>[H3] AI-generated illustration</b></p>
+                            <p class="muted">
+                                The infographic illustration was generated using an AI image tool and then arranged manually for the page layout.
+                            </p>
+                            <ul class="muted">
+                                <li>
+                                    Bing Image Creator (DALL·E), “Same Toronto Day, Different Commute – infographic illustration,” generated by ChatGPT, Nov. 2025.
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+
+            <!-- ---------------- MODAL OVERLAY ---------------- -->
+            <div class="img-modal" id="imgModal">
+                <div class="img-modal-content" id="imgModalContent">
+
+                    <div class="img-modal-toolbar">
+                        <button class="zoom-btn" id="zoomOutBtn">−</button>
+                        <span class="zoom-label" id="zoomLabel">100%</span>
+                        <button class="zoom-btn" id="zoomInBtn">+</button>
+                    </div>
+
+                    <span class="img-modal-close" id="imgModalClose">✕</span>
+
+                    <img id="imgModalImg" src="" alt="">
+                </div>
+            </div>
+
+            <div class="footer">Human Comfort · CIV300 Project</div>
+
+        </main>
+
+
+        <!-- JS — click-to-zoom -->
+        <script>
+            const themeBtn = document.getElementById('themeBtn');
+            themeBtn.addEventListener('click', () => {
+                const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', next);
+                themeBtn.textContent = next === 'light' ? 'Dark' : 'Light';
+            });
+
+            const posterTrigger = document.getElementById('posterTrigger');
+            const modal = document.getElementById('imgModal');
+            const modalContent = document.getElementById('imgModalContent');
+            const modalImg = document.getElementById('imgModalImg');
+            const modalClose = document.getElementById('imgModalClose');
+            const zoomInBtn = document.getElementById('zoomInBtn');
+            const zoomOutBtn = document.getElementById('zoomOutBtn');
+            const zoomLabel = document.getElementById('zoomLabel');
+
+            let currentScale = 1;
+            const MIN_SCALE = 0.5;
+            const MAX_SCALE = 4;
+            const STEP = 0.25;
+
+            function applyScale() {
+                modalImg.style.width = (currentScale * 100) + '%';
+                zoomLabel.textContent = Math.round(currentScale * 100) + '%';
+                zoomOutBtn.disabled = currentScale <= MIN_SCALE + 0.01;
+                zoomInBtn.disabled = currentScale >= MAX_SCALE - 0.01;
+            }
+
+            posterTrigger.addEventListener('click', () => {
+                const img = posterTrigger.querySelector('img');
+                modalImg.src = img.src;
+                currentScale = 1;
+                applyScale();
+                modalContent.scrollTop = 0;
+                modalContent.scrollLeft = 0;
+                modal.classList.add('open');
+            });
+
+            modalClose.addEventListener('click', () => modal.classList.remove('open'));
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) { modal.classList.remove('open'); }
+            });
+
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') { modal.classList.remove('open'); }
+            });
+
+            zoomInBtn.addEventListener('click', () => {
+                currentScale = Math.min(MAX_SCALE, currentScale + STEP);
+                applyScale();
+            });
+
+            zoomOutBtn.addEventListener('click', () => {
+                currentScale = Math.max(MIN_SCALE, currentScale - STEP);
+                applyScale();
+            });
+        </script>
+
+        <canvas id="cursorCanvas"></canvas>
+        <script src="js/cursor.js" defer></script>
+
 </body>
 </html>
