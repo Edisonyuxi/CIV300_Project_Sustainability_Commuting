@@ -177,7 +177,7 @@
           <label class="switch"><input type="radio" name="mode" value="Private"> Private car</label>
 
           <div id="publicWrap" class="row" style="margin-left:8px">
-            <span class="pill">Choose modes:</span>
+            <span class="pill">Choose mode:</span>
             <label class="switch"><input type="checkbox" data-key="Streetcar" checked> Streetcar</label>
             <label class="switch"><input type="checkbox" data-key="Train"> Train</label>
             <label class="switch"><input type="checkbox" data-key="Bike"> Bike</label>
@@ -209,7 +209,7 @@
             <span class="val"><span id="m-co2">0</span> g/day</span>
           </div>
           <div class="metric" style="min-width:240px">
-            <span class="lab">Progress bar (reference: 3000 g/day)</span>
+            <span class="lab">Progress bar (reference: 2000 g/day)</span>
             <div class="progress"><span id="m-bar" style="width:0%"></span></div>
           </div>
           <div class="metric">
@@ -222,7 +222,10 @@
         </div>
 
         <div class="bd">
-          <h4 style="margin:8px 0 4px">Unit emissions of each mode (g CO₂ / km, illustrative)</h4>
+          <h4 style="margin:8px 0 4px">Unit emissions of each mode (g CO₂e / passenger·km)</h4>
+          <p class="muted" style="font-size:11px;margin:0 0 8px">
+            Values are representative averages for educational comparison. Exact emissions depend on vehicle type, occupancy and electricity mix.
+          </p>
           <div class="svg-wrap">
             <svg id="barSvg" width="100%" height="100%" viewBox="0 0 640 220" preserveAspectRatio="xMidYMid meet" aria-label="Bar chart"></svg>
           </div>
@@ -235,7 +238,7 @@
       <div class="card tag-card">
         <div class="hd"><h3>Urban Heat Island</h3></div>
         <div class="bd">
-          <p class="tag-label">How urban surfaces (albedo & energy absorption) change local temperature.</p>
+          <p class="tag-label">How urban surfaces (albedo &amp; energy absorption) change local temperature.</p>
           <a href="uhi.html" class="btn primary">Open Urban Heat Island</a>
         </div>
       </div>
@@ -249,7 +252,7 @@
       </div>
 
       <div class="card tag-card">
-        <div class="hd"><h3>Air Composition & Pollution</h3></div>
+        <div class="hd"><h3>Air Composition &amp; Pollution</h3></div>
         <div class="bd">
           <p class="tag-label">How transportation modes influence air pollutants and AQI.</p>
           <a href="air_pollution.html" class="btn primary">Open Air Composition</a>
@@ -257,11 +260,61 @@
       </div>
 
       <div class="card tag-card">
-        <div class="hd"><h3>Combustion & Energy Efficiency</h3></div>
+        <div class="hd"><h3>Combustion &amp; Energy Efficiency</h3></div>
         <div class="bd">
           <p class="tag-label">From chemical energy in fuel to mechanical work in different drivetrains.</p>
           <a href="energy_efficiency.html" class="btn primary">Open Energy Efficiency</a>
         </div>
+      </div>
+    </section>
+
+    <!-- Main page data references -->
+    <section class="card" id="main-references" style="margin-top:20px">
+      <div class="hd"><h3>Main Page References (Data &amp; Thresholds)</h3></div>
+      <div class="bd">
+        <ol style="padding-left:18px;margin:0">
+          <li>
+            Hannah Ritchie (2023). “Which form of transport has the smallest carbon footprint?”
+            <em>Our World in Data</em>. Based on the UK “Greenhouse gas reporting:
+            conversion factors 2022”, providing per-passenger-km factors for petrol cars,
+            national rail and domestic flights. 
+            <a href="https://ourworldindata.org/travel-carbon-footprint" target="_blank" rel="noreferrer">Link</a>
+          </li>
+          <li>
+            Toronto Environmental Alliance (2010). “Clearing the Air on the TTC”.
+            Table 1 reports greenhouse gas emissions per 1 million passenger-km for
+            diesel buses (116.6 t), light rail vehicles (39 t) and subways (29 t),
+            converted here to 117, 39 and 29 g CO₂e per passenger-km. 
+            <a href="https://d3n8a8pro7vhmx.cloudfront.net/toenviro/pages/522/attachments/original/1417546277/TEAreport_clearing-the-air-on-the-TTC_2010.pdf"
+               target="_blank" rel="noreferrer">Link</a>
+          </li>
+          <li>
+            International Union of Railways (UIC). “Carbon markets and rail” white paper.
+            Reports rail well-to-wheel emissions around 22 g CO₂ per passenger-km,
+            supporting the use of a low emission factor for trains.
+            <a href="https://uic.org/events/IMG/pdf/carbon_credits_white_paper.pdf" target="_blank" rel="noreferrer">Link</a>
+          </li>
+          <li>
+            Hot or Cool Institute (2021). “1.5-Degree Lifestyles: Towards a Fair Consumption
+            Space for All”. Proposes lifestyle carbon footprint targets of 2.5 tCO₂e/person·year
+            by 2030 and 0.7 tCO₂e by 2050. The 2.5 tCO₂e/year target (~6.8 kg/day) is used to
+            derive the daily commuting thresholds for the Earth mood, assuming ~30% of the
+            budget is allocated to personal transport.
+            <a href="https://hotorcool.org/projects/1-5-degree-lifestyles/" target="_blank" rel="noreferrer">Link</a>
+          </li>
+          <li>
+            EcoSchools Canada (2024). “The Car in Carbon Dioxide”.
+            Summarizes that a typical private vehicle emits about 4.6 tonnes of CO₂ per year,
+            consistent with U.S. EPA data, providing Canadian context for private car emissions.
+            <a href="https://ecoschools.ca/wp-content/uploads/2024/10/YRE-The-Car-in-Carbon-Dioxide.pdf" target="_blank" rel="noreferrer">Link</a>
+          </li>
+        </ol>
+
+        <p style="font-size:12px;color:var(--muted);margin-top:8px">
+          Note: exact emissions depend on vehicle technology, occupancy and electricity mix.
+          This page uses these sources to choose representative per-passenger-kilometre factors
+          and a 1.5 °C-aligned daily budget so users can compare different commuting choices.
+        </p>
       </div>
     </section>
   </main>
@@ -271,7 +324,8 @@
     <div class="d-hd"><b>CIV300 Team 14</b></div>
     <div class="d-bd">
       <p>
-        Team members: Siqi Zhang (Team Lead), Joshua Chau (Project Manager), Yuxi Zhang (Web Dev Lead), Jiahao Mo (Research Assistant)
+        Team members: Siqi Zhang (Team Lead), Joshua Chau (Project Manager),
+        Yuxi Zhang (Web Dev Lead), Jiahao Mo (Research Assistant)
       </p>
       <p>Course Instructor: Jennifer Marie Gordon</p>
       <div style="text-align:right;margin-top:10px">
@@ -281,14 +335,17 @@
   </dialog>
 
   <script>
-    // ========== Emission factors (you can still swap these later) ==========
+    // ========== Emission factors: g CO2e per passenger-km ==========
+    // Values chosen from Our World in Data + TTC reports for educational comparison.
     const EMISSIONS_G_PER_KM = {
-      Car: 180,
-      Streetcar: 70,
-      Train: 45,
-      Bike: 0,
-      Airplane: 255
+      Car: 170,       // average petrol car
+      Streetcar: 39,  // TTC light-rail / streetcar
+      Train: 35,      // typical national / commuter rail
+      Bike: 0,        // treated as 0 in this tool (real lifecycle is low but non-zero)
+      Airplane: 246   // domestic / short-haul flight
     };
+
+    const PUBLIC_MODES = ['Streetcar','Train','Bike','Airplane'];
 
     const $ = s => document.querySelector(s);
     const $$ = s => Array.from(document.querySelectorAll(s));
@@ -326,9 +383,9 @@
     const scenarioCard = $('#scenarioCard');
     const CARD_MOOD_CLASSES = ['card-mood-none','card-mood-low','card-mood-mid','card-mood-high'];
 
-    // Three-threshold mood ranges (g/day) – adjust as needed
-    const HAPPY_MAX = 800;
-    const NEUTRAL_MAX = 2000;
+    // Mood thresholds (g/day) based on a 1.5°C-aligned daily transport budget.
+    const HAPPY_MAX = 1000;   // clearly below a fair daily share for commuting
+    const NEUTRAL_MAX = 2000; // around the daily transport budget in a 1.5°C lifestyle
 
     let state = {
       theme: 'light',
@@ -389,7 +446,12 @@
     }
 
     function totalCO2PerDay(){
-      const chosen = Object.entries(state.selected).filter(([,v])=>v).map(([k])=>k);
+      let chosen;
+      if(state.mode === 'Public'){
+        chosen = PUBLIC_MODES.filter(k => state.selected[k]);
+      } else {
+        chosen = state.selected.Car ? ['Car'] : [];
+      }
       if(chosen.length===0) return 0;
       const avg = chosen.reduce((s,k)=> s + EMISSIONS_G_PER_KM[k],0) / chosen.length;
       return Math.round(avg * state.distance);
@@ -405,17 +467,17 @@
         cardMoodClass = 'card-mood-none';
       }else if(co2 <= HAPPY_MAX){
         emoji = '🙂';
-        text = 'Emissions are relatively low for today — keep it up!';
+        text = 'Your commute stays well below a 1.5°C-aligned daily transport budget.';
         moodClass = 'mood-low';
         cardMoodClass = 'card-mood-low';
       }else if(co2 <= NEUTRAL_MAX){
         emoji = '😐';
-        text = 'Emissions are moderate — consider shifting more trips to transit or biking.';
+        text = 'Close to a fair daily budget for transport — more transit or biking would help.';
         moodClass = 'mood-mid';
         cardMoodClass = 'card-mood-mid';
       }else{
         emoji = '😢';
-        text = 'High daily emissions — Earth is stressed. Try shorter car trips or public transit.';
+        text = 'This commute alone exceeds a 1.5°C-compatible daily transport budget.';
         moodClass = 'mood-high';
         cardMoodClass = 'card-mood-high';
       }
@@ -432,7 +494,7 @@
       mDist.textContent = state.distance;
       const co2 = totalCO2PerDay();
       mCO2.textContent = co2;
-      mBar.style.width = Math.min(100, (co2/3000)*100) + '%';
+      mBar.style.width = Math.min(100, (co2/2000)*100) + '%';
       updateChips();
       drawBars();
       updateEarthFace(co2);
@@ -461,43 +523,52 @@
           publicWrap.style.display='flex';
           privateWrap.style.display='none';
           state.selected.Car=false;
-          ['Streetcar','Train','Bike','Airplane'].forEach(k=>{
-            const cb = publicWrap.querySelector(`input[data-key="${k}"]`);
-            if(cb) state.selected[k] = cb.checked;
-          });
-          if(!state.selected.Streetcar && !state.selected.Train && !state.selected.Bike && !state.selected.Airplane){
-            state.selected.Streetcar = true;
-            publicWrap.querySelector('input[data-key="Streetcar"]').checked = true;
+
+          // ensure exactly one public mode selected (default: Streetcar)
+          const any = PUBLIC_MODES.some(m => state.selected[m]);
+          if(!any){
+            PUBLIC_MODES.forEach(m => state.selected[m] = (m==='Streetcar'));
           }
+          PUBLIC_MODES.forEach(m=>{
+            const cb = publicWrap.querySelector(`input[data-key="${m}"]`);
+            if(cb) cb.checked = state.selected[m];
+          });
         }else{
           publicWrap.style.display='none';
           privateWrap.style.display='flex';
-          ['Streetcar','Train','Bike','Airplane'].forEach(k=>{
-            state.selected[k] = false;
-            const cb = publicWrap.querySelector(`input[data-key="${k}"]`);
-            if(cb) cb.checked = false;
-          });
+          PUBLIC_MODES.forEach(m => state.selected[m] = false);
+          const carCb = privateWrap.querySelector('input[data-key="Car"]');
           state.selected.Car = true;
-          privateWrap.querySelector('input[data-key="Car"]').checked = true;
+          if(carCb) carCb.checked = true;
         }
         updateUI();
       });
     });
 
-    // Mode selection within group
+    // Mode selection within group (public treated as single-choice)
     $$('#publicWrap input[type="checkbox"], #privateWrap input[type="checkbox"]').forEach(cb=>{
       cb.addEventListener('change', ()=>{
         const k = cb.getAttribute('data-key');
-        state.selected[k] = cb.checked;
 
-        if(state.mode==='Public'){
-          const any = ['Streetcar','Train','Bike','Airplane'].some(x=>state.selected[x]);
-          if(!any){
-            state.selected.Streetcar = true;
-            publicWrap.querySelector('input[data-key="Streetcar"]').checked = true;
+        if(state.mode === 'Public'){
+          if(cb.checked){
+            // only this mode stays selected
+            PUBLIC_MODES.forEach(mode=>{
+              const el = publicWrap.querySelector(`input[data-key="${mode}"]`);
+              const isThis = (mode === k);
+              state.selected[mode] = isThis;
+              if(el) el.checked = isThis;
+            });
+          }else{
+            // prevent "all off": re-check if this was the last one
+            const anyOn = PUBLIC_MODES.some(mode => state.selected[mode]);
+            if(!anyOn){
+              state.selected[k] = true;
+              cb.checked = true;
+            }
           }
         }else{
-          // Always keep car selected in private mode
+          // Private mode: always keep car selected
           state.selected.Car = true;
           cb.checked = true;
         }
@@ -525,11 +596,12 @@
       $$('input[name="mode"]').forEach(r=> r.checked = (r.value===state.mode));
       publicWrap.style.display='flex';
       privateWrap.style.display='none';
-      ['Streetcar','Train','Bike','Airplane'].forEach(k=>{
-        const cb = publicWrap.querySelector(`input[data-key="${k}"]`);
-        if(cb) cb.checked = !!state.selected[k];
+      PUBLIC_MODES.forEach(m=>{
+        const cb = publicWrap.querySelector(`input[data-key="${m}"]`);
+        if(cb) cb.checked = (m==='Streetcar');
       });
-      privateWrap.querySelector('input[data-key="Car"]').checked = false;
+      const carCb = privateWrap.querySelector('input[data-key="Car"]');
+      if(carCb) carCb.checked = false;
       document.documentElement.setAttribute('data-theme','light');
       themeBtn.textContent = 'Dark';
       updateUI();
